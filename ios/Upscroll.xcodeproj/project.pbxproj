@@ -108,6 +108,7 @@
 		C5633BC918CE46F968E1B898 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8722443FAE52958F06C64DC5 /* SettingsTab.swift */; };
 		C6D97037E529C0EA811EE82C /* kana_3052.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 11D071BE49837B2BDA21DDC3 /* kana_3052.m4a */; };
 		C73CAE977167A428182BDDFA /* kana_3070.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 27C90D6C8AE967FA8FBC0FDB /* kana_3070.m4a */; };
+		C7484AD732ED63BD2E21DCEC /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F35F4D1CB16A28FF6207F6F3 /* PrivacyInfo.xcprivacy */; };
 		C759C5272E46F68FCA4DEEEF /* SpeechCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71E814D773C9319F5EE6705E /* SpeechCheck.swift */; };
 		C9581838C2D5E836AF48130E /* UnlockViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D33A5C567DA362BCE3C6BB /* UnlockViews.swift */; };
 		CA0E8F8C23BA6DE2CD3763BF /* Speech.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFCAF149430C3C41B3A99DA5 /* Speech.swift */; };
@@ -277,6 +278,7 @@
 		EB63F0CB7041738F3F143972 /* youtube-shorts-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = "youtube-shorts-bridge.js"; sourceTree = "<group>"; };
 		ED0331794C4A54056F44D8E5 /* kana_304e.m4a */ = {isa = PBXFileReference; path = kana_304e.m4a; sourceTree = "<group>"; };
 		EF128397106F4F5A79F7EA42 /* kana_3058.m4a */ = {isa = PBXFileReference; path = kana_3058.m4a; sourceTree = "<group>"; };
+		F35F4D1CB16A28FF6207F6F3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		F90452F407FDA271D6F0E5FE /* kana_3051.m4a */ = {isa = PBXFileReference; path = kana_3051.m4a; sourceTree = "<group>"; };
 		FB5D17E1947B586C216D57E9 /* Upscroll.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Upscroll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCAD6624A46AC92536FAC9EC /* kana_308d.m4a */ = {isa = PBXFileReference; path = kana_308d.m4a; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 			children = (
 				D0412159E6358361DF1D9DEA /* Assets.xcassets */,
 				52D342BE64F1435290271D4C /* Info.plist */,
+				F35F4D1CB16A28FF6207F6F3 /* PrivacyInfo.xcprivacy */,
 				552BAF934BE2F8C7ECA40635 /* UpscrollApp.swift */,
 				40A92A3690F088088CE9C3B4 /* Bridges */,
 				95A3C0435DDAD77C39750B8E /* Injected */,
@@ -577,6 +580,9 @@
 					6BC8FF46E1E565CC0B51AF41 = {
 						TestTargetID = 6C605541F6B8A28F0DBD944E;
 					};
+					6C605541F6B8A28F0DBD944E = {
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = EB324B7342B026ED71EE2158 /* Build configuration list for PBXProject "Upscroll" */;
@@ -605,6 +611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E99B6934111791FE667FEAF /* Assets.xcassets in Resources */,
+				C7484AD732ED63BD2E21DCEC /* PrivacyInfo.xcprivacy in Resources */,
 				950869741651F3BA3BB8DEF4 /* kana_3042.m4a in Resources */,
 				E8AA7D9114FF635F8016F606 /* kana_3044.m4a in Resources */,
 				23773723B80A3CB864ABD4EA /* kana_3046.m4a in Resources */,
@@ -827,7 +834,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -844,6 +851,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Upscroll/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -910,7 +918,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -928,6 +936,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Upscroll/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

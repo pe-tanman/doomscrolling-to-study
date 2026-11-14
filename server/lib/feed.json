@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "_howto": "Shorts the feed plays, in order, before YouTube search results. Each item: youtubeId (the id in youtube.com/shorts/<id>), title, author, lang ('ja' Japanese audio, 'en' English), goals (travel, anime, friends, work, culture; empty = everyone). Optional cues: { source: [{start, end, text}], japanese: [{start, end, text}] } in seconds. Only add cues you wrote yourself or have the creator's permission to use: the app no longer reads YouTube's captions. Shorts with cues get word-swap subtitles and cards; Shorts without them play with no subtitles.",
+  "items": []
+}

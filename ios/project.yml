@@ -7,7 +7,7 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.10"
-    MARKETING_VERSION: "0.0.1"
+    MARKETING_VERSION: "1.0.0"
     CURRENT_PROJECT_VERSION: "1"
 targets:
   Upscroll:
@@ -23,6 +23,8 @@ targets:
       path: Upscroll/Info.plist
       properties:
         CFBundleDisplayName: Upscroll
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen: {}
         # Deep link back from the sign-in email: upscroll://auth-callback
         CFBundleURLTypes:
@@ -32,7 +34,6 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UIStatusBarHidden: true
         UIViewControllerBasedStatusBarAppearance: false
-        UIBackgroundModes: [audio]
         NSSpeechRecognitionUsageDescription: Upscroll listens when you tap the mic to check you said the phrase. It runs on your iPhone when possible.
         NSMicrophoneUsageDescription: The mic is used only while you practise saying a phrase.
         # Lesson server (TypeSafe Jev word picks). Override per build with LESSON_SERVER_URL.
@@ -41,11 +42,14 @@ targets:
         # Supabase cloud save: bare host (xcconfig can't hold "//") and the anon/publishable key, from Secrets.xcconfig.
         SupabaseHost: $(SUPABASE_HOST)
         SupabaseAnonKey: $(SUPABASE_ANON_KEY)
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.education
         NSAppTransportSecurity:
           NSAllowsLocalNetworking: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.upscroll.app
+        CODE_SIGN_STYLE: Automatic
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: false
         # Deployed lesson server (Vercel, TypeSafe key set there). For local dev: "http://localhost:8787".

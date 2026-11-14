@@ -9,6 +9,8 @@ import { POST as phrasePOST } from './api/phrase.js';
 import { POST as pathPOST } from './api/path.js';
 import { POST as grammarPOST } from './api/grammar.js';
 import { GET as lessonsGET } from './api/lessons.js';
+import { GET as feedGET } from './api/feed.js';
+import { GET as playerGET } from './api/player.js';
 import { lesson } from './lib/lesson.js';
 import { verify } from './lib/auth.js';
 
@@ -38,6 +40,12 @@ http.createServer(async (req, res) => {
   const isPhrase = req.url?.startsWith('/api/phrase');
   const isPath = req.url?.startsWith('/api/path');
   const isGrammar = req.url?.startsWith('/api/grammar');
+  if (req.url?.startsWith('/api/feed') && req.method === 'GET') {
+    const r = await feedGET(new Request(`http://localhost${req.url}`)); res.setHeader('content-type', 'application/json'); return res.end(await r.text());
+  }
+  if (req.url?.startsWith('/api/player') && req.method === 'GET') {
+    const r = playerGET(); res.setHeader('content-type', 'text/html; charset=utf-8'); return res.end(await r.text());
+  }
   if (req.url?.startsWith('/api/lessons') && req.method === 'GET') {
     const r = lessonsGET(); res.setHeader('content-type', 'application/json'); return res.end(await r.text());
   }

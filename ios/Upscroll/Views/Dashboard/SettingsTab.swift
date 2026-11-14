@@ -88,6 +88,12 @@ struct SettingsTab: View {
                 }
                 .accessibilityIdentifier("how-it-works")
                 NavigationLink { CreditsView() } label: { Label("Credits", systemImage: "text.book.closed") }
+                Link(destination: URL(string: "https://upscroll-lesson.vercel.app/api/privacy")!) {
+                    Label("Privacy Policy", systemImage: "hand.raised.fill")
+                }
+                Link(destination: URL(string: "https://upscroll-lesson.vercel.app/api/support")!) {
+                    Label("Support", systemImage: "envelope.fill")
+                }
             }
 
             #if DEBUG
