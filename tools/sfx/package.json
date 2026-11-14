@@ -1,0 +1,7 @@
+{
+  "name": "upscroll-sfx",
+  "private": true,
+  "type": "module",
+  "scripts": { "make": "node --env-file-if-exists=../../.env --env-file=../../.env.local make_sfx.mjs" },
+  "dependencies": { "@elevenlabs/elevenlabs-js": "^2.0.0" }
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "_howto": "Special lesson videos: upload each as a YouTube Short, then add an entry. youtubeId is the id in youtube.com/shorts/<id>. place = a curriculum place id (arrival, cafe, station, konbini, shrine, ramen, castle) or null. goals = which learner goals it suits (travel, anime, friends, work, culture; empty = everyone). checkpoints pause the Short at `at` seconds and show a card: kind 'phrase' (phraseId from the curriculum, skill reading|listening|writing|speaking) or 'word' (entryId from vocab.json). Set enabled to true when the video is live.",
+  "lessons": [
+    {
+      "id": "welcome-kana",
+      "youtubeId": "REPLACE_WITH_SHORT_ID",
+      "title": "Your first Japanese: こんにちは",
+      "place": "arrival",
+      "goals": [],
+      "level": 0,
+      "enabled": false,
+      "checkpoints": [
+        { "at": 6, "kind": "phrase", "phraseId": "hello", "skill": "listening" },
+        { "at": 14, "kind": "phrase", "phraseId": "thanks", "skill": "speaking" }
+      ]
+    }
+  ]
+}

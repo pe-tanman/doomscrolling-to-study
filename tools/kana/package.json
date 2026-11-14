@@ -1,0 +1,9 @@
+{
+  "name": "upscroll-kana",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "make": "node --env-file-if-exists=../../.env --env-file=../../.env.local make_kana.mjs"
+  },
+  "dependencies": { "@elevenlabs/elevenlabs-js": "^2.0.0" }
+}

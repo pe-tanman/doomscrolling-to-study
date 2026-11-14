@@ -1,0 +1,12 @@
+.env
+.env.*
+node_modules
+.vercel
+ios/build
+ios/Secrets.xcconfig
+# Local secrets written by `elevenlabs onboard`
+/.env.local
+.DS_Store
+xcuserdata/
+.claude/settings.local.json
+__pycache__/

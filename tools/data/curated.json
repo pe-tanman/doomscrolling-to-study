@@ -1,0 +1,3146 @@
+[
+ {
+  "id": "coffee",
+  "en": [
+   "coffee"
+  ],
+  "kana": "コーヒー",
+  "kanji": null,
+  "romaji": "kōhī",
+  "meaning": "coffee",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "☕️"
+ },
+ {
+  "id": "camera",
+  "en": [
+   "camera"
+  ],
+  "kana": "カメラ",
+  "kanji": null,
+  "romaji": "kamera",
+  "meaning": "camera",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "📷"
+ },
+ {
+  "id": "tv",
+  "en": [
+   "tv",
+   "television"
+  ],
+  "kana": "テレビ",
+  "kanji": null,
+  "romaji": "terebi",
+  "meaning": "TV",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "📺"
+ },
+ {
+  "id": "pizza",
+  "en": [
+   "pizza"
+  ],
+  "kana": "ピザ",
+  "kanji": null,
+  "romaji": "piza",
+  "meaning": "pizza",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍕"
+ },
+ {
+  "id": "game",
+  "en": [
+   "game",
+   "games"
+  ],
+  "kana": "ゲーム",
+  "kanji": null,
+  "romaji": "gēmu",
+  "meaning": "game",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🎮"
+ },
+ {
+  "id": "hotel",
+  "en": [
+   "hotel"
+  ],
+  "kana": "ホテル",
+  "kanji": null,
+  "romaji": "hoteru",
+  "meaning": "hotel",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🏨"
+ },
+ {
+  "id": "bus",
+  "en": [
+   "bus"
+  ],
+  "kana": "バス",
+  "kanji": null,
+  "romaji": "basu",
+  "meaning": "bus",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🚌"
+ },
+ {
+  "id": "taxi",
+  "en": [
+   "taxi"
+  ],
+  "kana": "タクシー",
+  "kanji": null,
+  "romaji": "takushī",
+  "meaning": "taxi",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🚕"
+ },
+ {
+  "id": "cake",
+  "en": [
+   "cake"
+  ],
+  "kana": "ケーキ",
+  "kanji": null,
+  "romaji": "kēki",
+  "meaning": "cake",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍰"
+ },
+ {
+  "id": "bread",
+  "en": [
+   "bread"
+  ],
+  "kana": "パン",
+  "kanji": null,
+  "romaji": "pan",
+  "meaning": "bread",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍞"
+ },
+ {
+  "id": "music",
+  "en": [
+   "music"
+  ],
+  "kana": "おんがく",
+  "kanji": "音楽",
+  "romaji": "ongaku",
+  "meaning": "music",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🎵"
+ },
+ {
+  "id": "phone",
+  "en": [
+   "phone",
+   "smartphone"
+  ],
+  "kana": "スマホ",
+  "kanji": null,
+  "romaji": "sumaho",
+  "meaning": "smartphone",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "📱"
+ },
+ {
+  "id": "computer",
+  "en": [
+   "computer",
+   "laptop",
+   "pc"
+  ],
+  "kana": "パソコン",
+  "kanji": null,
+  "romaji": "pasokon",
+  "meaning": "computer",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "💻"
+ },
+ {
+  "id": "shirt",
+  "en": [
+   "shirt"
+  ],
+  "kana": "シャツ",
+  "kanji": null,
+  "romaji": "shatsu",
+  "meaning": "shirt",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "👕"
+ },
+ {
+  "id": "beer",
+  "en": [
+   "beer"
+  ],
+  "kana": "ビール",
+  "kanji": null,
+  "romaji": "bīru",
+  "meaning": "beer",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍺"
+ },
+ {
+  "id": "juice",
+  "en": [
+   "juice"
+  ],
+  "kana": "ジュース",
+  "kanji": null,
+  "romaji": "jūsu",
+  "meaning": "juice",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🧃"
+ },
+ {
+  "id": "chocolate",
+  "en": [
+   "chocolate"
+  ],
+  "kana": "チョコ",
+  "kanji": null,
+  "romaji": "choko",
+  "meaning": "chocolate",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍫"
+ },
+ {
+  "id": "milk",
+  "en": [
+   "milk"
+  ],
+  "kana": "ミルク",
+  "kanji": null,
+  "romaji": "miruku",
+  "meaning": "milk",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🥛"
+ },
+ {
+  "id": "ramen",
+  "en": [
+   "ramen",
+   "noodle"
+  ],
+  "kana": "ラーメン",
+  "kanji": null,
+  "romaji": "rāmen",
+  "meaning": "ramen",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍜"
+ },
+ {
+  "id": "burger",
+  "en": [
+   "burger",
+   "hamburger"
+  ],
+  "kana": "ハンバーガー",
+  "kanji": null,
+  "romaji": "hanbāgā",
+  "meaning": "hamburger",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍔"
+ },
+ {
+  "id": "chicken",
+  "en": [
+   "chicken"
+  ],
+  "kana": "チキン",
+  "kanji": null,
+  "romaji": "chikin",
+  "meaning": "chicken",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍗"
+ },
+ {
+  "id": "banana",
+  "en": [
+   "banana"
+  ],
+  "kana": "バナナ",
+  "kanji": null,
+  "romaji": "banana",
+  "meaning": "banana",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍌"
+ },
+ {
+  "id": "restaurant",
+  "en": [
+   "restaurant"
+  ],
+  "kana": "レストラン",
+  "kanji": null,
+  "romaji": "resutoran",
+  "meaning": "restaurant",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🍽️"
+ },
+ {
+  "id": "door",
+  "en": [
+   "door"
+  ],
+  "kana": "ドア",
+  "kanji": null,
+  "romaji": "doa",
+  "meaning": "door",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🚪"
+ },
+ {
+  "id": "table",
+  "en": [
+   "table"
+  ],
+  "kana": "テーブル",
+  "kanji": null,
+  "romaji": "tēburu",
+  "meaning": "table",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": ""
+ },
+ {
+  "id": "bed",
+  "en": [
+   "bed"
+  ],
+  "kana": "ベッド",
+  "kanji": null,
+  "romaji": "beddo",
+  "meaning": "bed",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🛏️"
+ },
+ {
+  "id": "gym",
+  "en": [
+   "gym"
+  ],
+  "kana": "ジム",
+  "kanji": null,
+  "romaji": "jimu",
+  "meaning": "gym",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🏋️"
+ },
+ {
+  "id": "team",
+  "en": [
+   "team"
+  ],
+  "kana": "チーム",
+  "kanji": null,
+  "romaji": "chīmu",
+  "meaning": "team",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "👥"
+ },
+ {
+  "id": "ball",
+  "en": [
+   "ball"
+  ],
+  "kana": "ボール",
+  "kanji": null,
+  "romaji": "bōru",
+  "meaning": "ball",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "⚽️"
+ },
+ {
+  "id": "party",
+  "en": [
+   "party"
+  ],
+  "kana": "パーティー",
+  "kanji": null,
+  "romaji": "pātī",
+  "meaning": "party",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🎉"
+ },
+ {
+  "id": "present",
+  "en": [
+   "gift",
+   "present"
+  ],
+  "kana": "プレゼント",
+  "kanji": null,
+  "romaji": "purezento",
+  "meaning": "present, gift",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🎁"
+ },
+ {
+  "id": "video",
+  "en": [
+   "video"
+  ],
+  "kana": "どうが",
+  "kanji": "動画",
+  "romaji": "dōga",
+  "meaning": "video",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🎬"
+ },
+ {
+  "id": "america",
+  "en": [
+   "america"
+  ],
+  "kana": "アメリカ",
+  "kanji": null,
+  "romaji": "amerika",
+  "meaning": "America",
+  "loanword": true,
+  "pos": "noun",
+  "emoji": "🇺🇸"
+ },
+ {
+  "id": "pink",
+  "en": [
+   "pink"
+  ],
+  "kana": "ピンク",
+  "kanji": null,
+  "romaji": "pinku",
+  "meaning": "pink",
+  "loanword": true,
+  "pos": "any",
+  "emoji": "🩷"
+ },
+ {
+  "id": "ok",
+  "en": [
+   "ok",
+   "okay"
+  ],
+  "kana": "オーケー",
+  "kanji": null,
+  "romaji": "ōkē",
+  "meaning": "OK",
+  "loanword": true,
+  "pos": "any",
+  "emoji": "👌"
+ },
+ {
+  "id": "bye",
+  "en": [
+   "bye",
+   "goodbye"
+  ],
+  "kana": "バイバイ",
+  "kanji": null,
+  "romaji": "baibai",
+  "meaning": "bye-bye",
+  "loanword": true,
+  "pos": "any",
+  "emoji": "👋"
+ },
+ {
+  "id": "cat",
+  "en": [
+   "cat",
+   "kitten"
+  ],
+  "kana": "ねこ",
+  "kanji": "猫",
+  "romaji": "neko",
+  "meaning": "cat",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🐱"
+ },
+ {
+  "id": "dog",
+  "en": [
+   "dog",
+   "puppy"
+  ],
+  "kana": "いぬ",
+  "kanji": "犬",
+  "romaji": "inu",
+  "meaning": "dog",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🐶"
+ },
+ {
+  "id": "bird",
+  "en": [
+   "bird"
+  ],
+  "kana": "とり",
+  "kanji": "鳥",
+  "romaji": "tori",
+  "meaning": "bird",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🐦"
+ },
+ {
+  "id": "water",
+  "en": [
+   "water"
+  ],
+  "kana": "みず",
+  "kanji": "水",
+  "romaji": "mizu",
+  "meaning": "water",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "💧"
+ },
+ {
+  "id": "food",
+  "en": [
+   "food"
+  ],
+  "kana": "たべもの",
+  "kanji": "食べ物",
+  "romaji": "tabemono",
+  "meaning": "food",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🍱"
+ },
+ {
+  "id": "rice",
+  "en": [
+   "rice",
+   "meal"
+  ],
+  "kana": "ごはん",
+  "kanji": "ご飯",
+  "romaji": "gohan",
+  "meaning": "rice, meal",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🍚"
+ },
+ {
+  "id": "fish",
+  "en": [
+   "fish"
+  ],
+  "kana": "さかな",
+  "kanji": "魚",
+  "romaji": "sakana",
+  "meaning": "fish",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🐟"
+ },
+ {
+  "id": "meat",
+  "en": [
+   "meat"
+  ],
+  "kana": "にく",
+  "kanji": "肉",
+  "romaji": "niku",
+  "meaning": "meat",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🥩"
+ },
+ {
+  "id": "egg",
+  "en": [
+   "egg"
+  ],
+  "kana": "たまご",
+  "kanji": "卵",
+  "romaji": "tamago",
+  "meaning": "egg",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🥚"
+ },
+ {
+  "id": "tea",
+  "en": [
+   "tea"
+  ],
+  "kana": "おちゃ",
+  "kanji": "お茶",
+  "romaji": "ocha",
+  "meaning": "tea",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🍵"
+ },
+ {
+  "id": "apple",
+  "en": [
+   "apple"
+  ],
+  "kana": "りんご",
+  "kanji": null,
+  "romaji": "ringo",
+  "meaning": "apple",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🍎"
+ },
+ {
+  "id": "sushi",
+  "en": [
+   "sushi"
+  ],
+  "kana": "すし",
+  "kanji": "寿司",
+  "romaji": "sushi",
+  "meaning": "sushi",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🍣"
+ },
+ {
+  "id": "car",
+  "en": [
+   "car"
+  ],
+  "kana": "くるま",
+  "kanji": "車",
+  "romaji": "kuruma",
+  "meaning": "car",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🚗"
+ },
+ {
+  "id": "train",
+  "en": [
+   "train"
+  ],
+  "kana": "でんしゃ",
+  "kanji": "電車",
+  "romaji": "densha",
+  "meaning": "train",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🚃"
+ },
+ {
+  "id": "bike",
+  "en": [
+   "bike",
+   "bicycle"
+  ],
+  "kana": "じてんしゃ",
+  "kanji": "自転車",
+  "romaji": "jitensha",
+  "meaning": "bicycle",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🚲"
+ },
+ {
+  "id": "plane",
+  "en": [
+   "plane",
+   "airplane"
+  ],
+  "kana": "ひこうき",
+  "kanji": "飛行機",
+  "romaji": "hikōki",
+  "meaning": "airplane",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "✈️"
+ },
+ {
+  "id": "house",
+  "en": [
+   "house",
+   "home"
+  ],
+  "kana": "いえ",
+  "kanji": "家",
+  "romaji": "ie",
+  "meaning": "house, home",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏠"
+ },
+ {
+  "id": "room",
+  "en": [
+   "room"
+  ],
+  "kana": "へや",
+  "kanji": "部屋",
+  "romaji": "heya",
+  "meaning": "room",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🚪"
+ },
+ {
+  "id": "school",
+  "en": [
+   "school"
+  ],
+  "kana": "がっこう",
+  "kanji": "学校",
+  "romaji": "gakkō",
+  "meaning": "school",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏫"
+ },
+ {
+  "id": "job",
+  "en": [
+   "job",
+   "work"
+  ],
+  "kana": "しごと",
+  "kanji": "仕事",
+  "romaji": "shigoto",
+  "meaning": "job, work",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "💼"
+ },
+ {
+  "id": "money",
+  "en": [
+   "money",
+   "cash"
+  ],
+  "kana": "おかね",
+  "kanji": "お金",
+  "romaji": "okane",
+  "meaning": "money",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "💰"
+ },
+ {
+  "id": "friend",
+  "en": [
+   "friend",
+   "buddy"
+  ],
+  "kana": "ともだち",
+  "kanji": "友達",
+  "romaji": "tomodachi",
+  "meaning": "friend",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧑‍🤝‍🧑"
+ },
+ {
+  "id": "family",
+  "en": [
+   "family"
+  ],
+  "kana": "かぞく",
+  "kanji": "家族",
+  "romaji": "kazoku",
+  "meaning": "family",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👨‍👩‍👧"
+ },
+ {
+  "id": "mom",
+  "en": [
+   "mom",
+   "mother",
+   "mum"
+  ],
+  "kana": "おかあさん",
+  "kanji": "お母さん",
+  "romaji": "okāsan",
+  "meaning": "mom",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👩"
+ },
+ {
+  "id": "dad",
+  "en": [
+   "dad",
+   "father"
+  ],
+  "kana": "おとうさん",
+  "kanji": "お父さん",
+  "romaji": "otōsan",
+  "meaning": "dad",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👨"
+ },
+ {
+  "id": "baby",
+  "en": [
+   "baby"
+  ],
+  "kana": "あかちゃん",
+  "kanji": "赤ちゃん",
+  "romaji": "akachan",
+  "meaning": "baby",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👶"
+ },
+ {
+  "id": "child",
+  "en": [
+   "kid",
+   "child",
+   "children",
+   "kids"
+  ],
+  "kana": "こども",
+  "kanji": "子供",
+  "romaji": "kodomo",
+  "meaning": "child",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧒"
+ },
+ {
+  "id": "man",
+  "en": [
+   "man",
+   "men"
+  ],
+  "kana": "おとこ",
+  "kanji": "男",
+  "romaji": "otoko",
+  "meaning": "man",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👨"
+ },
+ {
+  "id": "woman",
+  "en": [
+   "woman",
+   "women"
+  ],
+  "kana": "おんな",
+  "kanji": "女",
+  "romaji": "onna",
+  "meaning": "woman",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👩"
+ },
+ {
+  "id": "girl",
+  "en": [
+   "girl"
+  ],
+  "kana": "おんなのこ",
+  "kanji": "女の子",
+  "romaji": "onna no ko",
+  "meaning": "girl",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👧"
+ },
+ {
+  "id": "boy",
+  "en": [
+   "boy"
+  ],
+  "kana": "おとこのこ",
+  "kanji": "男の子",
+  "romaji": "otoko no ko",
+  "meaning": "boy",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👦"
+ },
+ {
+  "id": "person",
+  "en": [
+   "person",
+   "people",
+   "guy"
+  ],
+  "kana": "ひと",
+  "kanji": "人",
+  "romaji": "hito",
+  "meaning": "person",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧍"
+ },
+ {
+  "id": "teacher",
+  "en": [
+   "teacher"
+  ],
+  "kana": "せんせい",
+  "kanji": "先生",
+  "romaji": "sensei",
+  "meaning": "teacher",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧑‍🏫"
+ },
+ {
+  "id": "student",
+  "en": [
+   "student"
+  ],
+  "kana": "がくせい",
+  "kanji": "学生",
+  "romaji": "gakusei",
+  "meaning": "student",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧑‍🎓"
+ },
+ {
+  "id": "name",
+  "en": [
+   "name"
+  ],
+  "kana": "なまえ",
+  "kanji": "名前",
+  "romaji": "namae",
+  "meaning": "name",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "📛"
+ },
+ {
+  "id": "day",
+  "en": [
+   "day"
+  ],
+  "kana": "ひ",
+  "kanji": "日",
+  "romaji": "hi",
+  "meaning": "day",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "📅"
+ },
+ {
+  "id": "year",
+  "en": [
+   "year"
+  ],
+  "kana": "とし",
+  "kanji": "年",
+  "romaji": "toshi",
+  "meaning": "year",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🗓️"
+ },
+ {
+  "id": "time",
+  "en": [
+   "time"
+  ],
+  "kana": "じかん",
+  "kanji": "時間",
+  "romaji": "jikan",
+  "meaning": "time",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "⏰"
+ },
+ {
+  "id": "today",
+  "en": [
+   "today"
+  ],
+  "kana": "きょう",
+  "kanji": "今日",
+  "romaji": "kyō",
+  "meaning": "today",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "📅"
+ },
+ {
+  "id": "tomorrow",
+  "en": [
+   "tomorrow"
+  ],
+  "kana": "あした",
+  "kanji": "明日",
+  "romaji": "ashita",
+  "meaning": "tomorrow",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "🌅"
+ },
+ {
+  "id": "yesterday",
+  "en": [
+   "yesterday"
+  ],
+  "kana": "きのう",
+  "kanji": "昨日",
+  "romaji": "kinō",
+  "meaning": "yesterday",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "⏪"
+ },
+ {
+  "id": "morning",
+  "en": [
+   "morning"
+  ],
+  "kana": "あさ",
+  "kanji": "朝",
+  "romaji": "asa",
+  "meaning": "morning",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌄"
+ },
+ {
+  "id": "night",
+  "en": [
+   "night",
+   "tonight"
+  ],
+  "kana": "よる",
+  "kanji": "夜",
+  "romaji": "yoru",
+  "meaning": "night",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌙"
+ },
+ {
+  "id": "song",
+  "en": [
+   "song"
+  ],
+  "kana": "うた",
+  "kanji": "歌",
+  "romaji": "uta",
+  "meaning": "song",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🎤"
+ },
+ {
+  "id": "movie",
+  "en": [
+   "movie",
+   "film"
+  ],
+  "kana": "えいが",
+  "kanji": "映画",
+  "romaji": "eiga",
+  "meaning": "movie",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🎞️"
+ },
+ {
+  "id": "book",
+  "en": [
+   "book"
+  ],
+  "kana": "ほん",
+  "kanji": "本",
+  "romaji": "hon",
+  "meaning": "book",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "📖"
+ },
+ {
+  "id": "shoes",
+  "en": [
+   "shoe",
+   "shoes"
+  ],
+  "kana": "くつ",
+  "kanji": "靴",
+  "romaji": "kutsu",
+  "meaning": "shoes",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👟"
+ },
+ {
+  "id": "hat",
+  "en": [
+   "hat"
+  ],
+  "kana": "ぼうし",
+  "kanji": "帽子",
+  "romaji": "bōshi",
+  "meaning": "hat",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧢"
+ },
+ {
+  "id": "bag",
+  "en": [
+   "bag"
+  ],
+  "kana": "かばん",
+  "kanji": null,
+  "romaji": "kaban",
+  "meaning": "bag",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👜"
+ },
+ {
+  "id": "clothes",
+  "en": [
+   "clothes"
+  ],
+  "kana": "ふく",
+  "kanji": "服",
+  "romaji": "fuku",
+  "meaning": "clothes",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👗"
+ },
+ {
+  "id": "eye",
+  "en": [
+   "eye",
+   "eyes"
+  ],
+  "kana": "め",
+  "kanji": "目",
+  "romaji": "me",
+  "meaning": "eye",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "👁️"
+ },
+ {
+  "id": "hand",
+  "en": [
+   "hand",
+   "hands"
+  ],
+  "kana": "て",
+  "kanji": "手",
+  "romaji": "te",
+  "meaning": "hand",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "✋"
+ },
+ {
+  "id": "face",
+  "en": [
+   "face"
+  ],
+  "kana": "かお",
+  "kanji": "顔",
+  "romaji": "kao",
+  "meaning": "face",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🙂"
+ },
+ {
+  "id": "head",
+  "en": [
+   "head"
+  ],
+  "kana": "あたま",
+  "kanji": "頭",
+  "romaji": "atama",
+  "meaning": "head",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🧠"
+ },
+ {
+  "id": "heart",
+  "en": [
+   "heart"
+  ],
+  "kana": "こころ",
+  "kanji": "心",
+  "romaji": "kokoro",
+  "meaning": "heart",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "❤️"
+ },
+ {
+  "id": "rain",
+  "en": [
+   "rain"
+  ],
+  "kana": "あめ",
+  "kanji": "雨",
+  "romaji": "ame",
+  "meaning": "rain",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "🌧️"
+ },
+ {
+  "id": "sun",
+  "en": [
+   "sun"
+  ],
+  "kana": "たいよう",
+  "kanji": "太陽",
+  "romaji": "taiyō",
+  "meaning": "sun",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "☀️"
+ },
+ {
+  "id": "sky",
+  "en": [
+   "sky"
+  ],
+  "kana": "そら",
+  "kanji": "空",
+  "romaji": "sora",
+  "meaning": "sky",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌤️"
+ },
+ {
+  "id": "sea",
+  "en": [
+   "sea",
+   "ocean",
+   "beach"
+  ],
+  "kana": "うみ",
+  "kanji": "海",
+  "romaji": "umi",
+  "meaning": "sea",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌊"
+ },
+ {
+  "id": "mountain",
+  "en": [
+   "mountain"
+  ],
+  "kana": "やま",
+  "kanji": "山",
+  "romaji": "yama",
+  "meaning": "mountain",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "⛰️"
+ },
+ {
+  "id": "river",
+  "en": [
+   "river"
+  ],
+  "kana": "かわ",
+  "kanji": "川",
+  "romaji": "kawa",
+  "meaning": "river",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏞️"
+ },
+ {
+  "id": "tree",
+  "en": [
+   "tree"
+  ],
+  "kana": "き",
+  "kanji": "木",
+  "romaji": "ki",
+  "meaning": "tree",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌳"
+ },
+ {
+  "id": "flower",
+  "en": [
+   "flower"
+  ],
+  "kana": "はな",
+  "kanji": "花",
+  "romaji": "hana",
+  "meaning": "flower",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌸"
+ },
+ {
+  "id": "town",
+  "en": [
+   "town",
+   "city"
+  ],
+  "kana": "まち",
+  "kanji": "町",
+  "romaji": "machi",
+  "meaning": "town",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏙️"
+ },
+ {
+  "id": "country",
+  "en": [
+   "country"
+  ],
+  "kana": "くに",
+  "kanji": "国",
+  "romaji": "kuni",
+  "meaning": "country",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🗺️"
+ },
+ {
+  "id": "japan",
+  "en": [
+   "japan"
+  ],
+  "kana": "にほん",
+  "kanji": "日本",
+  "romaji": "nihon",
+  "meaning": "Japan",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🇯🇵"
+ },
+ {
+  "id": "shop",
+  "en": [
+   "shop",
+   "store"
+  ],
+  "kana": "みせ",
+  "kanji": "店",
+  "romaji": "mise",
+  "meaning": "shop",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏪"
+ },
+ {
+  "id": "park",
+  "en": [
+   "park"
+  ],
+  "kana": "こうえん",
+  "kanji": "公園",
+  "romaji": "kōen",
+  "meaning": "park",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🌳"
+ },
+ {
+  "id": "hospital",
+  "en": [
+   "hospital"
+  ],
+  "kana": "びょういん",
+  "kanji": "病院",
+  "romaji": "byōin",
+  "meaning": "hospital",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🏥"
+ },
+ {
+  "id": "station",
+  "en": [
+   "station"
+  ],
+  "kana": "えき",
+  "kanji": "駅",
+  "romaji": "eki",
+  "meaning": "station",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🚉"
+ },
+ {
+  "id": "window",
+  "en": [
+   "window"
+  ],
+  "kana": "まど",
+  "kanji": "窓",
+  "romaji": "mado",
+  "meaning": "window",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🪟"
+ },
+ {
+  "id": "birthday",
+  "en": [
+   "birthday"
+  ],
+  "kana": "たんじょうび",
+  "kanji": "誕生日",
+  "romaji": "tanjōbi",
+  "meaning": "birthday",
+  "loanword": false,
+  "pos": "noun",
+  "emoji": "🎂"
+ },
+ {
+  "id": "eat",
+  "en": [
+   "eat",
+   "ate"
+  ],
+  "kana": "たべる",
+  "kanji": "食べる",
+  "romaji": "taberu",
+  "meaning": "to eat",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🍽️"
+ },
+ {
+  "id": "drink",
+  "en": [
+   "drink"
+  ],
+  "kana": "のむ",
+  "kanji": "飲む",
+  "romaji": "nomu",
+  "meaning": "to drink",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🥤"
+ },
+ {
+  "id": "see",
+  "en": [
+   "see",
+   "watch",
+   "look"
+  ],
+  "kana": "みる",
+  "kanji": "見る",
+  "romaji": "miru",
+  "meaning": "to see, watch",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "👀"
+ },
+ {
+  "id": "go",
+  "en": [
+   "go"
+  ],
+  "kana": "いく",
+  "kanji": "行く",
+  "romaji": "iku",
+  "meaning": "to go",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🚶"
+ },
+ {
+  "id": "come",
+  "en": [
+   "come"
+  ],
+  "kana": "くる",
+  "kanji": "来る",
+  "romaji": "kuru",
+  "meaning": "to come",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "👋"
+ },
+ {
+  "id": "buy",
+  "en": [
+   "buy"
+  ],
+  "kana": "かう",
+  "kanji": "買う",
+  "romaji": "kau",
+  "meaning": "to buy",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🛒"
+ },
+ {
+  "id": "sleep",
+  "en": [
+   "sleep"
+  ],
+  "kana": "ねる",
+  "kanji": "寝る",
+  "romaji": "neru",
+  "meaning": "to sleep",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "😴"
+ },
+ {
+  "id": "make",
+  "en": [
+   "make"
+  ],
+  "kana": "つくる",
+  "kanji": "作る",
+  "romaji": "tsukuru",
+  "meaning": "to make",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🛠️"
+ },
+ {
+  "id": "do",
+  "en": [
+   "do"
+  ],
+  "kana": "する",
+  "kanji": null,
+  "romaji": "suru",
+  "meaning": "to do",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "✅"
+ },
+ {
+  "id": "say",
+  "en": [
+   "say",
+   "tell"
+  ],
+  "kana": "いう",
+  "kanji": "言う",
+  "romaji": "iu",
+  "meaning": "to say",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "💬"
+ },
+ {
+  "id": "know",
+  "en": [
+   "know"
+  ],
+  "kana": "しる",
+  "kanji": "知る",
+  "romaji": "shiru",
+  "meaning": "to know",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "💡"
+ },
+ {
+  "id": "think",
+  "en": [
+   "think"
+  ],
+  "kana": "おもう",
+  "kanji": "思う",
+  "romaji": "omou",
+  "meaning": "to think",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🤔"
+ },
+ {
+  "id": "want",
+  "en": [
+   "want"
+  ],
+  "kana": "ほしい",
+  "kanji": "欲しい",
+  "romaji": "hoshii",
+  "meaning": "to want",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🙏"
+ },
+ {
+  "id": "like",
+  "en": [
+   "like"
+  ],
+  "kana": "すき",
+  "kanji": "好き",
+  "romaji": "suki",
+  "meaning": "to like",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "👍"
+ },
+ {
+  "id": "love",
+  "en": [
+   "love"
+  ],
+  "kana": "だいすき",
+  "kanji": "大好き",
+  "romaji": "daisuki",
+  "meaning": "to love",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "😍"
+ },
+ {
+  "id": "play",
+  "en": [
+   "play"
+  ],
+  "kana": "あそぶ",
+  "kanji": "遊ぶ",
+  "romaji": "asobu",
+  "meaning": "to play",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🤸"
+ },
+ {
+  "id": "run",
+  "en": [
+   "run"
+  ],
+  "kana": "はしる",
+  "kanji": "走る",
+  "romaji": "hashiru",
+  "meaning": "to run",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🏃"
+ },
+ {
+  "id": "walk",
+  "en": [
+   "walk"
+  ],
+  "kana": "あるく",
+  "kanji": "歩く",
+  "romaji": "aruku",
+  "meaning": "to walk",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🚶"
+ },
+ {
+  "id": "cook",
+  "en": [
+   "cook"
+  ],
+  "kana": "りょうりする",
+  "kanji": "料理する",
+  "romaji": "ryōri suru",
+  "meaning": "to cook",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🍳"
+ },
+ {
+  "id": "wait",
+  "en": [
+   "wait"
+  ],
+  "kana": "まつ",
+  "kanji": "待つ",
+  "romaji": "matsu",
+  "meaning": "to wait",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "⏳"
+ },
+ {
+  "id": "open",
+  "en": [
+   "open"
+  ],
+  "kana": "あける",
+  "kanji": "開ける",
+  "romaji": "akeru",
+  "meaning": "to open",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "📂"
+ },
+ {
+  "id": "read",
+  "en": [
+   "read"
+  ],
+  "kana": "よむ",
+  "kanji": "読む",
+  "romaji": "yomu",
+  "meaning": "to read",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "📚"
+ },
+ {
+  "id": "write",
+  "en": [
+   "write"
+  ],
+  "kana": "かく",
+  "kanji": "書く",
+  "romaji": "kaku",
+  "meaning": "to write",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "✍️"
+ },
+ {
+  "id": "listen",
+  "en": [
+   "listen",
+   "hear"
+  ],
+  "kana": "きく",
+  "kanji": "聞く",
+  "romaji": "kiku",
+  "meaning": "to listen",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "👂"
+ },
+ {
+  "id": "talk",
+  "en": [
+   "talk",
+   "speak"
+  ],
+  "kana": "はなす",
+  "kanji": "話す",
+  "romaji": "hanasu",
+  "meaning": "to talk",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🗣️"
+ },
+ {
+  "id": "understand",
+  "en": [
+   "understand"
+  ],
+  "kana": "わかる",
+  "kanji": "分かる",
+  "romaji": "wakaru",
+  "meaning": "to understand",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "💡"
+ },
+ {
+  "id": "cry",
+  "en": [
+   "cry"
+  ],
+  "kana": "なく",
+  "kanji": "泣く",
+  "romaji": "naku",
+  "meaning": "to cry",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "😭"
+ },
+ {
+  "id": "laugh",
+  "en": [
+   "laugh"
+  ],
+  "kana": "わらう",
+  "kanji": "笑う",
+  "romaji": "warau",
+  "meaning": "to laugh",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "😂"
+ },
+ {
+  "id": "die",
+  "en": [
+   "die"
+  ],
+  "kana": "しぬ",
+  "kanji": "死ぬ",
+  "romaji": "shinu",
+  "meaning": "to die",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "💀"
+ },
+ {
+  "id": "meet",
+  "en": [
+   "meet"
+  ],
+  "kana": "あう",
+  "kanji": "会う",
+  "romaji": "au",
+  "meaning": "to meet",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🤝"
+ },
+ {
+  "id": "give",
+  "en": [
+   "give"
+  ],
+  "kana": "あげる",
+  "kanji": null,
+  "romaji": "ageru",
+  "meaning": "to give",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🎁"
+ },
+ {
+  "id": "help",
+  "en": [
+   "help"
+  ],
+  "kana": "たすける",
+  "kanji": "助ける",
+  "romaji": "tasukeru",
+  "meaning": "to help",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🆘"
+ },
+ {
+  "id": "start",
+  "en": [
+   "start",
+   "begin"
+  ],
+  "kana": "はじめる",
+  "kanji": "始める",
+  "romaji": "hajimeru",
+  "meaning": "to start",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "▶️"
+ },
+ {
+  "id": "stop",
+  "en": [
+   "stop",
+   "quit"
+  ],
+  "kana": "やめる",
+  "kanji": null,
+  "romaji": "yameru",
+  "meaning": "to stop, quit",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🛑"
+ },
+ {
+  "id": "win",
+  "en": [
+   "win"
+  ],
+  "kana": "かつ",
+  "kanji": "勝つ",
+  "romaji": "katsu",
+  "meaning": "to win",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🏆"
+ },
+ {
+  "id": "lose",
+  "en": [
+   "lose"
+  ],
+  "kana": "まける",
+  "kanji": "負ける",
+  "romaji": "makeru",
+  "meaning": "to lose",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "😞"
+ },
+ {
+  "id": "dance",
+  "en": [
+   "dance"
+  ],
+  "kana": "おどる",
+  "kanji": "踊る",
+  "romaji": "odoru",
+  "meaning": "to dance",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "💃"
+ },
+ {
+  "id": "sing",
+  "en": [
+   "sing"
+  ],
+  "kana": "うたう",
+  "kanji": "歌う",
+  "romaji": "utau",
+  "meaning": "to sing",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🎤"
+ },
+ {
+  "id": "swim",
+  "en": [
+   "swim"
+  ],
+  "kana": "およぐ",
+  "kanji": "泳ぐ",
+  "romaji": "oyogu",
+  "meaning": "to swim",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🏊"
+ },
+ {
+  "id": "drive",
+  "en": [
+   "drive"
+  ],
+  "kana": "うんてんする",
+  "kanji": "運転する",
+  "romaji": "unten suru",
+  "meaning": "to drive",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🚗"
+ },
+ {
+  "id": "sit",
+  "en": [
+   "sit"
+  ],
+  "kana": "すわる",
+  "kanji": "座る",
+  "romaji": "suwaru",
+  "meaning": "to sit",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🪑"
+ },
+ {
+  "id": "stand",
+  "en": [
+   "stand"
+  ],
+  "kana": "たつ",
+  "kanji": "立つ",
+  "romaji": "tatsu",
+  "meaning": "to stand",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🧍"
+ },
+ {
+  "id": "wake",
+  "en": [
+   "wake"
+  ],
+  "kana": "おきる",
+  "kanji": "起きる",
+  "romaji": "okiru",
+  "meaning": "to wake up",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "⏰"
+ },
+ {
+  "id": "study",
+  "en": [
+   "study",
+   "learn"
+  ],
+  "kana": "べんきょうする",
+  "kanji": "勉強する",
+  "romaji": "benkyō suru",
+  "meaning": "to study",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "📝"
+ },
+ {
+  "id": "teach",
+  "en": [
+   "teach"
+  ],
+  "kana": "おしえる",
+  "kanji": "教える",
+  "romaji": "oshieru",
+  "meaning": "to teach",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🧑‍🏫"
+ },
+ {
+  "id": "forget",
+  "en": [
+   "forget"
+  ],
+  "kana": "わすれる",
+  "kanji": "忘れる",
+  "romaji": "wasureru",
+  "meaning": "to forget",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🫥"
+ },
+ {
+  "id": "remember",
+  "en": [
+   "remember"
+  ],
+  "kana": "おぼえる",
+  "kanji": "覚える",
+  "romaji": "oboeru",
+  "meaning": "to remember",
+  "loanword": false,
+  "pos": "verb",
+  "emoji": "🧠"
+ },
+ {
+  "id": "tired",
+  "en": [
+   "tired",
+   "exhausted"
+  ],
+  "kana": "つかれた",
+  "kanji": "疲れた",
+  "romaji": "tsukareta",
+  "meaning": "tired",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "😩"
+ },
+ {
+  "id": "delicious",
+  "en": [
+   "delicious",
+   "tasty",
+   "yummy"
+  ],
+  "kana": "おいしい",
+  "kanji": "美味しい",
+  "romaji": "oishii",
+  "meaning": "delicious",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "😋"
+ },
+ {
+  "id": "cute",
+  "en": [
+   "cute",
+   "adorable"
+  ],
+  "kana": "かわいい",
+  "kanji": "可愛い",
+  "romaji": "kawaii",
+  "meaning": "cute",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🥰"
+ },
+ {
+  "id": "big",
+  "en": [
+   "big",
+   "huge",
+   "large"
+  ],
+  "kana": "おおきい",
+  "kanji": "大きい",
+  "romaji": "ōkii",
+  "meaning": "big",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🐘"
+ },
+ {
+  "id": "small",
+  "en": [
+   "small",
+   "tiny",
+   "little"
+  ],
+  "kana": "ちいさい",
+  "kanji": "小さい",
+  "romaji": "chiisai",
+  "meaning": "small",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🐜"
+ },
+ {
+  "id": "hot",
+  "en": [
+   "hot"
+  ],
+  "kana": "あつい",
+  "kanji": "暑い",
+  "romaji": "atsui",
+  "meaning": "hot",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🥵"
+ },
+ {
+  "id": "cold",
+  "en": [
+   "cold"
+  ],
+  "kana": "さむい",
+  "kanji": "寒い",
+  "romaji": "samui",
+  "meaning": "cold",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🥶"
+ },
+ {
+  "id": "fun",
+  "en": [
+   "fun"
+  ],
+  "kana": "たのしい",
+  "kanji": "楽しい",
+  "romaji": "tanoshii",
+  "meaning": "fun",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "🎉"
+ },
+ {
+  "id": "good",
+  "en": [
+   "good",
+   "nice",
+   "great"
+  ],
+  "kana": "いい",
+  "kanji": null,
+  "romaji": "ii",
+  "meaning": "good",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "👍"
+ },
+ {
+  "id": "bad",
+  "en": [
+   "bad"
+  ],
+  "kana": "わるい",
+  "kanji": "悪い",
+  "romaji": "warui",
+  "meaning": "bad",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "👎"
+ },
+ {
+  "id": "new",
+  "en": [
+   "new"
+  ],
+  "kana": "あたらしい",
+  "kanji": "新しい",
+  "romaji": "atarashii",
+  "meaning": "new",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "✨"
+ },
+ {
+  "id": "old",
+  "en": [
+   "old"
+  ],
+  "kana": "ふるい",
+  "kanji": "古い",
+  "romaji": "furui",
+  "meaning": "old (things)",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🏚️"
+ },
+ {
+  "id": "happy",
+  "en": [
+   "happy",
+   "glad"
+  ],
+  "kana": "うれしい",
+  "kanji": "嬉しい",
+  "romaji": "ureshii",
+  "meaning": "happy",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "😊"
+ },
+ {
+  "id": "sad",
+  "en": [
+   "sad"
+  ],
+  "kana": "かなしい",
+  "kanji": "悲しい",
+  "romaji": "kanashii",
+  "meaning": "sad",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "😢"
+ },
+ {
+  "id": "scary",
+  "en": [
+   "scary",
+   "scared",
+   "afraid"
+  ],
+  "kana": "こわい",
+  "kanji": "怖い",
+  "romaji": "kowai",
+  "meaning": "scary",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "😱"
+ },
+ {
+  "id": "funny",
+  "en": [
+   "funny",
+   "interesting"
+  ],
+  "kana": "おもしろい",
+  "kanji": "面白い",
+  "romaji": "omoshiroi",
+  "meaning": "funny, interesting",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🤣"
+ },
+ {
+  "id": "pretty",
+  "en": [
+   "pretty",
+   "beautiful"
+  ],
+  "kana": "きれい",
+  "kanji": "綺麗",
+  "romaji": "kirei",
+  "meaning": "pretty",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🌸"
+ },
+ {
+  "id": "cool",
+  "en": [
+   "cool"
+  ],
+  "kana": "かっこいい",
+  "kanji": null,
+  "romaji": "kakkoii",
+  "meaning": "cool",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "😎"
+ },
+ {
+  "id": "crazy",
+  "en": [
+   "crazy",
+   "insane"
+  ],
+  "kana": "やばい",
+  "kanji": null,
+  "romaji": "yabai",
+  "meaning": "crazy, insane",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🤯"
+ },
+ {
+  "id": "amazing",
+  "en": [
+   "amazing",
+   "awesome",
+   "incredible"
+  ],
+  "kana": "すごい",
+  "kanji": "凄い",
+  "romaji": "sugoi",
+  "meaning": "amazing",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🤩"
+ },
+ {
+  "id": "easy",
+  "en": [
+   "easy",
+   "simple"
+  ],
+  "kana": "かんたん",
+  "kanji": "簡単",
+  "romaji": "kantan",
+  "meaning": "easy",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "👌"
+ },
+ {
+  "id": "difficult",
+  "en": [
+   "difficult"
+  ],
+  "kana": "むずかしい",
+  "kanji": "難しい",
+  "romaji": "muzukashii",
+  "meaning": "difficult",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🧩"
+ },
+ {
+  "id": "fast",
+  "en": [
+   "fast",
+   "quick"
+  ],
+  "kana": "はやい",
+  "kanji": "速い",
+  "romaji": "hayai",
+  "meaning": "fast",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "⚡️"
+ },
+ {
+  "id": "slow",
+  "en": [
+   "slow"
+  ],
+  "kana": "おそい",
+  "kanji": "遅い",
+  "romaji": "osoi",
+  "meaning": "slow",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🐢"
+ },
+ {
+  "id": "expensive",
+  "en": [
+   "expensive"
+  ],
+  "kana": "たかい",
+  "kanji": "高い",
+  "romaji": "takai",
+  "meaning": "expensive",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "💸"
+ },
+ {
+  "id": "cheap",
+  "en": [
+   "cheap"
+  ],
+  "kana": "やすい",
+  "kanji": "安い",
+  "romaji": "yasui",
+  "meaning": "cheap",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🏷️"
+ },
+ {
+  "id": "strong",
+  "en": [
+   "strong"
+  ],
+  "kana": "つよい",
+  "kanji": "強い",
+  "romaji": "tsuyoi",
+  "meaning": "strong",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "💪"
+ },
+ {
+  "id": "weak",
+  "en": [
+   "weak"
+  ],
+  "kana": "よわい",
+  "kanji": "弱い",
+  "romaji": "yowai",
+  "meaning": "weak",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🥀"
+ },
+ {
+  "id": "young",
+  "en": [
+   "young"
+  ],
+  "kana": "わかい",
+  "kanji": "若い",
+  "romaji": "wakai",
+  "meaning": "young",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🧒"
+ },
+ {
+  "id": "long",
+  "en": [
+   "long"
+  ],
+  "kana": "ながい",
+  "kanji": "長い",
+  "romaji": "nagai",
+  "meaning": "long",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "📏"
+ },
+ {
+  "id": "sweet",
+  "en": [
+   "sweet"
+  ],
+  "kana": "あまい",
+  "kanji": "甘い",
+  "romaji": "amai",
+  "meaning": "sweet",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🍬"
+ },
+ {
+  "id": "spicy",
+  "en": [
+   "spicy"
+  ],
+  "kana": "からい",
+  "kanji": "辛い",
+  "romaji": "karai",
+  "meaning": "spicy",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🌶️"
+ },
+ {
+  "id": "hungry",
+  "en": [
+   "hungry"
+  ],
+  "kana": "おなかすいた",
+  "kanji": "お腹空いた",
+  "romaji": "onaka suita",
+  "meaning": "hungry",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🤤"
+ },
+ {
+  "id": "sleepy",
+  "en": [
+   "sleepy"
+  ],
+  "kana": "ねむい",
+  "kanji": "眠い",
+  "romaji": "nemui",
+  "meaning": "sleepy",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🥱"
+ },
+ {
+  "id": "busy",
+  "en": [
+   "busy"
+  ],
+  "kana": "いそがしい",
+  "kanji": "忙しい",
+  "romaji": "isogashii",
+  "meaning": "busy",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🏃"
+ },
+ {
+  "id": "real",
+  "en": [
+   "real",
+   "true"
+  ],
+  "kana": "ほんとう",
+  "kanji": "本当",
+  "romaji": "hontō",
+  "meaning": "real, true",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "💯"
+ },
+ {
+  "id": "red",
+  "en": [
+   "red"
+  ],
+  "kana": "あか",
+  "kanji": "赤",
+  "romaji": "aka",
+  "meaning": "red",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🔴"
+ },
+ {
+  "id": "blue",
+  "en": [
+   "blue"
+  ],
+  "kana": "あお",
+  "kanji": "青",
+  "romaji": "ao",
+  "meaning": "blue",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🔵"
+ },
+ {
+  "id": "white",
+  "en": [
+   "white"
+  ],
+  "kana": "しろ",
+  "kanji": "白",
+  "romaji": "shiro",
+  "meaning": "white",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "⚪️"
+ },
+ {
+  "id": "black",
+  "en": [
+   "black"
+  ],
+  "kana": "くろ",
+  "kanji": "黒",
+  "romaji": "kuro",
+  "meaning": "black",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "⚫️"
+ },
+ {
+  "id": "green",
+  "en": [
+   "green"
+  ],
+  "kana": "みどり",
+  "kanji": "緑",
+  "romaji": "midori",
+  "meaning": "green",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🟢"
+ },
+ {
+  "id": "yellow",
+  "en": [
+   "yellow"
+  ],
+  "kana": "きいろ",
+  "kanji": "黄色",
+  "romaji": "kiiro",
+  "meaning": "yellow",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🟡"
+ },
+ {
+  "id": "very",
+  "en": [
+   "very"
+  ],
+  "kana": "とても",
+  "kanji": null,
+  "romaji": "totemo",
+  "meaning": "very",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "➕"
+ },
+ {
+  "id": "really",
+  "en": [
+   "really",
+   "seriously"
+  ],
+  "kana": "ほんとうに",
+  "kanji": "本当に",
+  "romaji": "hontō ni",
+  "meaning": "really",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "❗️"
+ },
+ {
+  "id": "now",
+  "en": [
+   "now"
+  ],
+  "kana": "いま",
+  "kanji": "今",
+  "romaji": "ima",
+  "meaning": "now",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "⏱️"
+ },
+ {
+  "id": "again",
+  "en": [
+   "again"
+  ],
+  "kana": "また",
+  "kanji": null,
+  "romaji": "mata",
+  "meaning": "again",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "🔁"
+ },
+ {
+  "id": "always",
+  "en": [
+   "always"
+  ],
+  "kana": "いつも",
+  "kanji": null,
+  "romaji": "itsumo",
+  "meaning": "always",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "♾️"
+ },
+ {
+  "id": "together",
+  "en": [
+   "together"
+  ],
+  "kana": "いっしょに",
+  "kanji": "一緒に",
+  "romaji": "issho ni",
+  "meaning": "together",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "🤝"
+ },
+ {
+  "id": "here",
+  "en": [
+   "here"
+  ],
+  "kana": "ここ",
+  "kanji": null,
+  "romaji": "koko",
+  "meaning": "here",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "📍"
+ },
+ {
+  "id": "there",
+  "en": [
+   "there"
+  ],
+  "kana": "そこ",
+  "kanji": null,
+  "romaji": "soko",
+  "meaning": "there",
+  "loanword": false,
+  "pos": "adv",
+  "emoji": "👉"
+ },
+ {
+  "id": "i",
+  "en": [
+   "i",
+   "me"
+  ],
+  "kana": "わたし",
+  "kanji": "私",
+  "romaji": "watashi",
+  "meaning": "I, me",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "🙋"
+ },
+ {
+  "id": "you",
+  "en": [
+   "you"
+  ],
+  "kana": "あなた",
+  "kanji": null,
+  "romaji": "anata",
+  "meaning": "you",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "🫵"
+ },
+ {
+  "id": "he",
+  "en": [
+   "he",
+   "him"
+  ],
+  "kana": "かれ",
+  "kanji": "彼",
+  "romaji": "kare",
+  "meaning": "he",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "👨"
+ },
+ {
+  "id": "she",
+  "en": [
+   "she",
+   "her"
+  ],
+  "kana": "かのじょ",
+  "kanji": "彼女",
+  "romaji": "kanojo",
+  "meaning": "she",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "👩"
+ },
+ {
+  "id": "we",
+  "en": [
+   "we",
+   "us"
+  ],
+  "kana": "わたしたち",
+  "kanji": "私たち",
+  "romaji": "watashitachi",
+  "meaning": "we",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "👥"
+ },
+ {
+  "id": "this",
+  "en": [
+   "this"
+  ],
+  "kana": "これ",
+  "kanji": null,
+  "romaji": "kore",
+  "meaning": "this",
+  "loanword": false,
+  "pos": "pron",
+  "emoji": "👇"
+ },
+ {
+  "id": "what",
+  "en": [
+   "what"
+  ],
+  "kana": "なに",
+  "kanji": "何",
+  "romaji": "nani",
+  "meaning": "what?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "❓"
+ },
+ {
+  "id": "where",
+  "en": [
+   "where"
+  ],
+  "kana": "どこ",
+  "kanji": null,
+  "romaji": "doko",
+  "meaning": "where?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "🗺️"
+ },
+ {
+  "id": "who",
+  "en": [
+   "who"
+  ],
+  "kana": "だれ",
+  "kanji": "誰",
+  "romaji": "dare",
+  "meaning": "who?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "🕵️"
+ },
+ {
+  "id": "why",
+  "en": [
+   "why"
+  ],
+  "kana": "なんで",
+  "kanji": null,
+  "romaji": "nande",
+  "meaning": "why?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "🤷"
+ },
+ {
+  "id": "yes",
+  "en": [
+   "yes"
+  ],
+  "kana": "はい",
+  "kanji": null,
+  "romaji": "hai",
+  "meaning": "yes",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "✅"
+ },
+ {
+  "id": "yeah",
+  "en": [
+   "yeah",
+   "yep"
+  ],
+  "kana": "うん",
+  "kanji": null,
+  "romaji": "un",
+  "meaning": "yeah",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "👍"
+ },
+ {
+  "id": "thanks",
+  "en": [
+   "thanks",
+   "thank"
+  ],
+  "kana": "ありがとう",
+  "kanji": null,
+  "romaji": "arigatō",
+  "meaning": "thank you",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "🙏"
+ },
+ {
+  "id": "sorry",
+  "en": [
+   "sorry"
+  ],
+  "kana": "ごめん",
+  "kanji": null,
+  "romaji": "gomen",
+  "meaning": "sorry",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "🙇"
+ },
+ {
+  "id": "hello",
+  "en": [
+   "hello",
+   "hi"
+  ],
+  "kana": "こんにちは",
+  "kanji": null,
+  "romaji": "konnichiwa",
+  "meaning": "hello",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "👋"
+ },
+ {
+  "id": "wow",
+  "en": [
+   "wow"
+  ],
+  "kana": "わあ",
+  "kanji": null,
+  "romaji": "wā",
+  "meaning": "wow",
+  "loanword": false,
+  "pos": "any",
+  "emoji": "😮"
+ },
+ {
+  "id": "two",
+  "en": [
+   "two"
+  ],
+  "kana": "に",
+  "kanji": "二",
+  "romaji": "ni",
+  "meaning": "two",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "2️⃣"
+ },
+ {
+  "id": "three",
+  "en": [
+   "three"
+  ],
+  "kana": "さん",
+  "kanji": "三",
+  "romaji": "san",
+  "meaning": "three",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "3️⃣"
+ },
+ {
+  "id": "four",
+  "en": [
+   "four"
+  ],
+  "kana": "よん",
+  "kanji": "四",
+  "romaji": "yon",
+  "meaning": "four",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "4️⃣"
+ },
+ {
+  "id": "five",
+  "en": [
+   "five"
+  ],
+  "kana": "ご",
+  "kanji": "五",
+  "romaji": "go",
+  "meaning": "five",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "5️⃣"
+ },
+ {
+  "id": "six",
+  "en": [
+   "six"
+  ],
+  "kana": "ろく",
+  "kanji": "六",
+  "romaji": "roku",
+  "meaning": "six",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "6️⃣"
+ },
+ {
+  "id": "seven",
+  "en": [
+   "seven"
+  ],
+  "kana": "なな",
+  "kanji": "七",
+  "romaji": "nana",
+  "meaning": "seven",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "7️⃣"
+ },
+ {
+  "id": "eight",
+  "en": [
+   "eight"
+  ],
+  "kana": "はち",
+  "kanji": "八",
+  "romaji": "hachi",
+  "meaning": "eight",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "8️⃣"
+ },
+ {
+  "id": "nine",
+  "en": [
+   "nine"
+  ],
+  "kana": "きゅう",
+  "kanji": "九",
+  "romaji": "kyū",
+  "meaning": "nine",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "9️⃣"
+ },
+ {
+  "id": "ten",
+  "en": [
+   "ten"
+  ],
+  "kana": "じゅう",
+  "kanji": "十",
+  "romaji": "jū",
+  "meaning": "ten",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "🔟"
+ },
+ {
+  "id": "hundred",
+  "en": [
+   "hundred"
+  ],
+  "kana": "ひゃく",
+  "kanji": "百",
+  "romaji": "hyaku",
+  "meaning": "hundred",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "💯"
+ },
+ {
+  "id": "thousand",
+  "en": [
+   "thousand"
+  ],
+  "kana": "せん",
+  "kanji": "千",
+  "romaji": "sen",
+  "meaning": "thousand",
+  "loanword": false,
+  "pos": "num",
+  "emoji": "🔢"
+ },
+ {
+  "id": "when",
+  "en": [
+   "when"
+  ],
+  "kana": "いつ",
+  "kanji": null,
+  "romaji": "itsu",
+  "meaning": "when?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "🕐"
+ },
+ {
+  "id": "how",
+  "en": [
+   "how"
+  ],
+  "kana": "どう",
+  "kanji": null,
+  "romaji": "dō",
+  "meaning": "how?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "🤔"
+ },
+ {
+  "id": "which",
+  "en": [
+   "which"
+  ],
+  "kana": "どれ",
+  "kanji": null,
+  "romaji": "dore",
+  "meaning": "which one?",
+  "loanword": false,
+  "pos": "question",
+  "emoji": "👉"
+ },
+ {
+  "id": "looks_tasty",
+  "en": [
+   "tasty-looking"
+  ],
+  "kana": "おいしそう",
+  "kanji": "美味しそう",
+  "romaji": "oishisō",
+  "meaning": "looks delicious",
+  "loanword": false,
+  "pos": "adj",
+  "emoji": "🤤"
+ }
+]
