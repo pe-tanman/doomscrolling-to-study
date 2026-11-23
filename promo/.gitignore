@@ -1,0 +1,10 @@
+# superseded first-pass stills and VO
+img/v1/
+audio/v1/
+# raw ElevenLabs JSON (audio already saved as .mp3, timings as .align.json)
+audio/vo*.json
+!audio/vo*.align.json
+# scratch output
+img/contact*.jpg
+mock1/frames/
+mock1/build.log
