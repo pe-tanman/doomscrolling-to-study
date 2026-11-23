@@ -30,7 +30,7 @@ export function privacyHTML(email) {
 <li><strong>Natural voice</strong>: Japanese words and lines to be read aloud are sent to Google (Gemini text-to-speech). Generated audio may be cached on our server (Vercel) so it can be replayed.</li>
 <li><strong>Picture questions</strong>: on Shorts without speech, a still frame of the video on screen is sent to TypeSafe to describe what is shown. Frames are not stored.</li>
 </ul>
-<p>Our server keeps short-lived technical logs (such as IP address and request time) to prevent abuse and rate-limit requests.</p>
+<p>To keep the service fair and prevent abuse, the app sends a random ID created for this installation (not your name, email or Apple ID). Our server counts daily requests per installation ID and per IP address, and deletes these counts after 7 days. Our server also keeps short-lived technical logs (such as IP address and request time).</p>
 
 <h2>Microphone and speech recognition</h2>
 <p>When you tap the mic to practise saying a phrase, Upscroll uses Apple’s speech recognition. It runs on your iPhone when the device supports it; otherwise Apple processes the audio under <a href="https://www.apple.com/legal/privacy/">Apple’s Privacy Policy</a>. Upscroll does not record or store your voice.</p>

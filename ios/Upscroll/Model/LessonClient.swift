@@ -54,6 +54,7 @@ enum LessonClient {
     }()
 
     private static func sign(_ r: inout URLRequest, body: Data) {
+        r.setValue(DeviceID.value, forHTTPHeaderField: "x-ds-device")   // server-side daily limits per install
         guard let key = secret else { return }
         let ts = String(Int(Date().timeIntervalSince1970))
         let nonce = UUID().uuidString
@@ -237,4 +238,23 @@ struct PathResponse: Decodable {
     let focus: String?
     let phrasePriority: [String]
     let model: String?
+}
+
+/// A random id for this install, kept in the Keychain (this phone only), so the server's daily limits
+/// follow the install rather than resetting on reinstall. Not linked to the person or the Apple ID.
+enum DeviceID {
+    static let value: String = {
+        let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: "com.upscroll.app.device",
+                                kSecAttrAccount as String: "id", kSecReturnData as String: true, kSecMatchLimit as String: kSecMatchLimitOne]
+        var out: AnyObject?
+        if SecItemCopyMatching(q as CFDictionary, &out) == errSecSuccess, let d = out as? Data, let s = String(data: d, encoding: .utf8) {
+            return s
+        }
+        let id = UUID().uuidString
+        let add: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: "com.upscroll.app.device",
+                                  kSecAttrAccount as String: "id", kSecValueData as String: Data(id.utf8),
+                                  kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly]
+        SecItemAdd(add as CFDictionary, nil)
+        return id
+    }()
 }

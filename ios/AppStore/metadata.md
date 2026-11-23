@@ -45,6 +45,7 @@ Data linked to you:
 - **Contact Info ▸ Email Address**: App Functionality (only if the user signs in for cloud save)
 - **User Content ▸ Other User Content** (learning progress): App Functionality
 Data not linked to you:
+- **Identifiers ▸ Device ID** (random per-install id, for daily usage limits): App Functionality
 - **Usage Data ▸ Other Usage Data** (caption lines of watched Shorts, chosen words, video frames sent to the lesson server): App Functionality
 Not collected by Upscroll: YouTube/Google credentials (sign-in happens on Google's own pages, and cookies stay on the device), location, contacts, identifiers, audio.
 

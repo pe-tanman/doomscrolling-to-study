@@ -1,6 +1,7 @@
 // Vercel Function: POST /api/grammar (signed). See lib/grammar.js.
 import { grammar } from '../lib/grammar.js';
 import { verify } from '../lib/auth.js';
+import { checkUsage } from '../lib/usage.js';
 
 const json = (status, obj) => new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json' } });
 
@@ -9,6 +10,8 @@ export async function POST(request) {
   if (body.length > 60_000) return json(413, { error: 'body too large' });
   const denied = verify(request.headers, body);
   if (denied) return json(denied.status, { error: denied.error });
+  const limited = await checkUsage(request.headers, 'grammar');
+  if (limited) return json(limited.status, { error: limited.error });
   try {
     return json(200, await grammar(JSON.parse(body)));
   } catch (e) {
