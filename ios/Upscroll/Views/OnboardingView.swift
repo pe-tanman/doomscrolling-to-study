@@ -279,9 +279,9 @@ struct OnboardingView: View {
                 Spacer(minLength: 8)
                 // Caption preview chip
                 VStack(spacing: 0) {
-                    if l == .kanaRomaji { Text("kōhī").font(.caption.weight(.semibold)).foregroundStyle(Brand.sun) }
+                    if l == .kanaRomaji { Text("kōhī").font(.caption.weight(.semibold)).foregroundStyle(Brand.OnDark.gold) }
                     Text("コーヒー").font(Brand.jp(20, bold: true, relativeTo: .title3))
-                        .foregroundStyle(Brand.sun).lineLimit(1).fixedSize()
+                        .foregroundStyle(Brand.OnDark.gold).lineLimit(1).fixedSize()
                 }
                 .padding(.horizontal, 12).padding(.vertical, 8)
                 .frame(minWidth: 96)
@@ -464,11 +464,11 @@ struct FeedDemo: View {
                 if phase == 1 {
                     HStack(spacing: 6) {
                         VStack(spacing: 0) {
-                            if let sound { Text(sound).font(.caption2.weight(.semibold)).foregroundStyle(Brand.sun) }
-                            Text(word).font(Brand.jp(17, bold: true)).foregroundStyle(Brand.sun)
+                            if let sound { Text(sound).font(.caption2.weight(.semibold)).foregroundStyle(Brand.OnDark.gold) }
+                            Text(word).font(Brand.jp(17, bold: true)).foregroundStyle(Brand.OnDark.gold)
                         }
                         Text("= cat").font(.headline).foregroundStyle(.white)
-                        Image(systemName: "speaker.wave.2.fill").font(.caption).foregroundStyle(Brand.sun)
+                        Image(systemName: "speaker.wave.2.fill").font(.caption).foregroundStyle(Brand.OnDark.gold)
                     }
                     .padding(.horizontal, 12).padding(.vertical, 7)
                     .background(.black.opacity(0.6), in: Capsule())
@@ -478,8 +478,8 @@ struct FeedDemo: View {
                     HStack(alignment: .lastTextBaseline, spacing: 0) {
                         Text("Look, a ").foregroundStyle(.white)
                         VStack(spacing: 0) {
-                            if let sound { Text(sound).font(.caption2.weight(.semibold)).foregroundStyle(Brand.sun) }
-                            Text(word).font(Brand.jp(17, bold: true)).foregroundStyle(Brand.sun)
+                            if let sound { Text(sound).font(.caption2.weight(.semibold)).foregroundStyle(Brand.OnDark.gold) }
+                            Text(word).font(Brand.jp(17, bold: true)).foregroundStyle(Brand.OnDark.gold)
                         }
                             .overlay(alignment: .bottomTrailing) {
                                 Image(systemName: "hand.point.up.left.fill").font(.title2).foregroundStyle(.white)
@@ -504,7 +504,7 @@ struct FeedDemo: View {
     private var card: some View {
         VStack(spacing: 10) {
             VStack(spacing: 0) {
-                if let sound { Text(sound).font(.caption.weight(.semibold)).foregroundStyle(Brand.sun) }
+                if let sound { Text(sound).font(.caption.weight(.semibold)).foregroundStyle(Brand.OnDark.gold) }
                 Text(word).font(Brand.jp(26, bold: true)).foregroundStyle(.white)
             }
             HStack(spacing: 8) {

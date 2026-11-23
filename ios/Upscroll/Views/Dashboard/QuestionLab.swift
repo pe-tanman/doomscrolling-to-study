@@ -52,7 +52,7 @@ struct QuestionLab: View {
                 .textInputAutocapitalization(.never).autocorrectionDisabled()
             if !wordQuery.isEmpty {
                 Text(chosenWord.map { "→ \($0.kana) · \($0.meaning) · N\($0.level)" } ?? "No match: a random word is used")
-                    .font(.caption).foregroundStyle(chosenWord == nil ? .orange : .secondary)
+                    .font(.caption).foregroundStyle(chosenWord == nil ? Brand.warn : Brand.ink2)
             }
             ForEach(LabQuestion.allCases) { q in
                 Button { fire { await session.labShow(q, entry: q == .listen ? nil : chosenWord) } } label: {
@@ -135,7 +135,7 @@ struct QuestionLab: View {
                 Text("\(place.name)")
                 Spacer()
                 Text("\(journey.phrasesDone(place))/\(place.phrases.count) · \(journey.gapCount(place)) gaps · \(stateText)")
-                    .font(.caption).foregroundStyle(.secondary)
+                    .font(.caption).foregroundStyle(Brand.ink2)
             }
             Button("Jump to \(place.name) (earlier places done)") { journey.debugMove(to: place) }
             Button("Complete \(place.name)") { journey.debugSet(place, skills: Set(Skill.allCases)) }

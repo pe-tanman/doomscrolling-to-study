@@ -32,7 +32,7 @@ struct LearningCard: View {
     /// Dark enough that white text stays legible over bright video frames without any text shadow.
     private let glassTint = Color.black.opacity(0.5)
     private let panelBG = Color.black.opacity(0.24)
-    private let accent = Color.yellow
+    private let accent = Brand.OnDark.gold
 
     /// Picture questions: the analyzed frame, full size, exactly over the (paused) video.
     private var overlayFrame: (image: UIImage, rect: CGRect, box: CGRect?)? {
@@ -120,7 +120,7 @@ struct LearningCard: View {
             }
             switch moment.kind {
             case .recall: tag("REMEMBER IT?", Brand.OnDark.cyan)
-            case .listen: tag("LISTEN", Brand.OnDark.warm)
+            case .listen: tag("LISTEN", Brand.OnDark.peach)
             case .picture: tag("PICTURE", Brand.OnDark.mint)
             case .review: tag("REVIEW", Brand.OnDark.violet)
             case .hearIt: tag("REVIEW · LISTEN", Brand.OnDark.violet)
@@ -137,7 +137,7 @@ struct LearningCard: View {
             }
             if moment.entry.loanword, !isRecall || picked != nil {   // a hint when you must produce it
                 // Honest label: you know the meaning already; the lesson is reading katakana.
-                tag("KATAKANA · FROM ENGLISH", Brand.OnDark.teal)
+                tag("KATAKANA · FROM ENGLISH", Brand.OnDark.lime)
             }
             Spacer()
             // Skip ticket (earned): skip this quiz without it counting as a miss; the word comes back tomorrow.
@@ -645,7 +645,7 @@ struct LearningCard: View {
         return Label(text,
                      systemImage: ok ? "checkmark.circle.fill" : "arrow.uturn.backward.circle.fill")
             .font(.subheadline.weight(.bold))
-            .foregroundStyle(ok ? Brand.OnDark.right : Brand.OnDark.warm)
+            .foregroundStyle(ok ? Brand.OnDark.right : Brand.OnDark.peach)
     }
 
     // MARK: Reveal

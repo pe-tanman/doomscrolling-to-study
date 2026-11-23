@@ -315,10 +315,10 @@ struct CaptionDemo: View {
         VStack(spacing: 10) {
             if tapped {
                 HStack(spacing: 8) {
-                    Text("つかれた").font(.headline.weight(.heavy)).foregroundStyle(.yellow)
+                    Text("つかれた").font(.headline.weight(.heavy)).foregroundStyle(Brand.OnDark.gold)
                     Text("tsukareta").font(.subheadline).foregroundStyle(.white)
                     Text("= tired").font(.headline).foregroundStyle(.white)
-                    Image(systemName: "speaker.wave.2.fill").font(.caption).foregroundStyle(.yellow)
+                    Image(systemName: "speaker.wave.2.fill").font(.caption).foregroundStyle(Brand.OnDark.gold)
                 }
                 .padding(.vertical, 8).padding(.horizontal, 12)
                 .background(.white.opacity(0.12), in: RoundedRectangle(cornerRadius: 14))
@@ -327,8 +327,8 @@ struct CaptionDemo: View {
             HStack(alignment: .lastTextBaseline, spacing: 0) {
                 Text("I'm so ").font(.headline).foregroundStyle(.white)
                 VStack(spacing: 0) {
-                    Text("tsukareta").font(.caption).foregroundStyle(.yellow)
-                    Text("つかれた").font(.headline.weight(.heavy)).foregroundStyle(.yellow)
+                    Text("tsukareta").font(.caption).foregroundStyle(Brand.OnDark.gold)
+                    Text("つかれた").font(.headline.weight(.heavy)).foregroundStyle(Brand.OnDark.gold)
                 }
                 .overlay(alignment: .bottomTrailing) {
                     Image(systemName: "hand.tap.fill").font(.title3).foregroundStyle(.white)

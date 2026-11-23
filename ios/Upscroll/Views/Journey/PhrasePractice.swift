@@ -241,7 +241,7 @@ struct PhrasePractice: View {
     private func bg(_ o: String) -> Color {
         guard let picked else { return Brand.mist }
         if o == phrase.exampleEnglish { return Brand.successSoft }
-        return o == picked ? Color.red.opacity(0.12) : Brand.mist
+        return o == picked ? Brand.dangerSoft : Brand.mist
     }
 
     private func result(_ ok: Bool) -> some View {

@@ -45,14 +45,14 @@ struct NextUnlockCard: View {
                     if let next, let goal {
                         HStack(alignment: .center, spacing: 12) {
                             VStack(alignment: .leading, spacing: 2) {
-                                Label("NEXT UNLOCK", systemImage: "lock.fill").font(.caption.weight(.heavy)).foregroundStyle(Brand.sun)
+                                Label("NEXT UNLOCK", systemImage: "lock.fill").font(.caption.weight(.heavy)).foregroundStyle(Brand.OnIndigo.gold)
                                 Text(next.title).font(.system(.title2, design: .rounded).weight(.heavy)).foregroundStyle(.white)
-                                Text(goal.detail).font(.subheadline).foregroundStyle(.white.opacity(0.9)).lineLimit(2)
+                                Text(goal.detail).font(.subheadline).foregroundStyle(Brand.OnIndigo.muted).lineLimit(2)
                             }
                             Spacer(minLength: 4)
                             ProgressRing(value: goal.progress)
                         }
-                        Label(goal.estimate, systemImage: "clock").font(.caption.weight(.semibold)).foregroundStyle(.white.opacity(0.85))
+                        Label(goal.estimate, systemImage: "clock").font(.caption.weight(.semibold)).foregroundStyle(Brand.OnIndigo.muted)
                     }
                     if !kana.isComplete {
                         HStack(spacing: 8) {
@@ -69,7 +69,7 @@ struct NextUnlockCard: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(LinearGradient(colors: [Brand.violet, Brand.violetDeep], startPoint: .topLeading, endPoint: .bottomTrailing),
+                .background(Brand.heroGradient,
                             in: RoundedRectangle(cornerRadius: 22, style: .continuous))
                 .overlay(alignment: .topTrailing) {
                     Image(systemName: "chevron.right").font(.caption.weight(.bold)).foregroundStyle(.white.opacity(0.7)).padding(12)
@@ -107,7 +107,7 @@ struct UnlockDetailCard: View {
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(LinearGradient(colors: [Brand.violet, Brand.violetDeep], startPoint: .topLeading, endPoint: .bottomTrailing),
+        .background(Brand.heroGradient,
                     in: RoundedRectangle(cornerRadius: 24, style: .continuous))
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("unlock-detail")
@@ -120,9 +120,9 @@ struct UnlockDetailCard: View {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
                     Label("NEXT UNLOCK", systemImage: "lock.fill")
-                        .font(.caption.weight(.heavy)).foregroundStyle(Brand.sun)
+                        .font(.caption.weight(.heavy)).foregroundStyle(Brand.OnIndigo.gold)
                     Text(next.title).font(.system(.title, design: .rounded).weight(.heavy)).foregroundStyle(.white)
-                    Text(Self.pitch(next)).font(.subheadline).foregroundStyle(.white.opacity(0.9))
+                    Text(Self.pitch(next)).font(.subheadline).foregroundStyle(Brand.OnIndigo.muted)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 8)
@@ -132,7 +132,7 @@ struct UnlockDetailCard: View {
             VStack(alignment: .leading, spacing: 6) {
                 ProgressBar(value: goal.progress, color: Brand.sun, height: 10, track: .white.opacity(0.25))
                 Text(goal.detail).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
-                Label(goal.estimate, systemImage: "clock").font(.caption.weight(.semibold)).foregroundStyle(.white.opacity(0.85))
+                Label(goal.estimate, systemImage: "clock").font(.caption.weight(.semibold)).foregroundStyle(Brand.OnIndigo.muted)
             }
         }
         .accessibilityElement(children: .combine)
@@ -234,13 +234,13 @@ struct UnlockDetailCard: View {
                 Label("Kana sounds", systemImage: "character.ja").font(.subheadline.weight(.bold)).foregroundStyle(.white)
                 Spacer()
                 Text(kana.isComplete ? "Complete" : "\(kana.count)/\(kana.total)")
-                    .font(.subheadline.weight(.bold)).monospacedDigit().foregroundStyle(kana.isComplete ? Brand.sun : .white)
+                    .font(.subheadline.weight(.bold)).monospacedDigit().foregroundStyle(.white)
             }
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 11), spacing: 4) {
                 ForEach(KanaProgress.drillSet, id: \.self) { k in
                     let got = kana.known.contains(k)
                     Text(k).font(Brand.jp(12, bold: true))
-                        .foregroundStyle(got ? Brand.violetDeep : .white.opacity(0.55))
+                        .foregroundStyle(got ? Brand.violetDeep : Brand.OnIndigo.muted)
                         .frame(maxWidth: .infinity, minHeight: 22)
                         .background(got ? Color.white : .white.opacity(0.12), in: RoundedRectangle(cornerRadius: 6, style: .continuous))
                 }
@@ -248,7 +248,7 @@ struct UnlockDetailCard: View {
             .accessibilityHidden(true)
             if let g = Unlocks.kanaGoal(kana) {
                 Label("\(g.estimate) · they come on Shorts without talking", systemImage: "clock")
-                    .font(.caption.weight(.semibold)).foregroundStyle(.white.opacity(0.85))
+                    .font(.caption.weight(.semibold)).foregroundStyle(Brand.OnIndigo.muted)
             }
         }
         .padding(12)

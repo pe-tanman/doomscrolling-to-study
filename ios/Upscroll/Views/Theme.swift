@@ -1,51 +1,109 @@
 import SwiftUI
 
-/// Upscroll theme, v3 palette. Built in OKLCH (see the values in the comments) so related colours share
-/// lightness and chroma: neutrals are near-grey with a faint indigo cast that sits with the lavender→peach art,
-/// one deep indigo (藍) is the primary, and the four skill colours have equal lightness so none shouts louder.
-/// Every text colour here is ≥ 4.5:1 on white (WCAG AA); see the contrast checks in the commit.
-enum Brand {
-    // Neutrals (hue ≈ 282–292)
-    static let ink = Color(hex: 0x29294D)          // oklch(.30 .065 282) text
-    static let ink2 = Color(hex: 0x545571)         // oklch(.46 .045 282) icons, secondary
-    static let ink3 = Color(hex: 0x9C9DAE)         // oklch(.70 .025 285) chevrons, inactive
-    static let sky = Color(hex: 0xF6F5FC)          // oklch(.972 .010 292) page background
-    static let surface = Color.white
-    static let mist = Color(hex: 0xF1F0F9)         // oklch(.958 .012 292) wells, chips
-    static let line = Color(hex: 0xE3E1ED)         // oklch(.915 .016 292) hairlines, empty tracks
-    // Primary: indigo
-    static let violet = Color(hex: 0x5D5BC8)       // oklch(.53 .165 280) buttons, tint
-    static let violetSoft = Color(hex: 0xEBEBFE)   // oklch(.945 .025 285)
-    static let violetDeep = Color(hex: 0x443F9F)   // oklch(.43 .15 280) accent text
-    // Accents
-    static let sakura = Color(hex: 0xECA1BE)       // oklch(.79 .095 355)
-    static let sakuraSoft = Color(hex: 0xFDEAF1)
-    static let cream = Color(hex: 0xFEF5E6)        // oklch(.972 .022 80)
-    static let sun = Color(hex: 0xF3BE55)          // oklch(.83 .135 82) yamabuki gold, fills only
-    static let sunSoft = Color(hex: 0xFEF3D6)
-    static let sunDeep = Color(hex: 0x8F5D14)      // oklch(.52 .105 70) gold as text
-    // Status
-    static let success = Color(hex: 0x0C7D48)      // oklch(.52 .125 155) matcha
-    static let successSoft = Color(hex: 0xE1F7E7)
-    static let warn = Color(hex: 0xB84E1D)         // oklch(.555 .15 42) persimmon: "again", "missed"
-    static let warnSoft = Color(hex: 0xFEECE4)
-    static let danger = Color(hex: 0xC13C3B)       // oklch(.55 .17 25) wrong, destructive
-    static let dangerSoft = Color(hex: 0xFEEBE9)
-    static let ice = Color(hex: 0x1F7FA2)          // oklch(.56 .10 228) streak freeze
-    static let iceSoft = Color(hex: 0xDEF2FC)
+// MARK: - Palette (reference colours)
+//
+// Upscroll palette v4. Generated and verified by tools/palette/palette.py: change a ramp there, re-run it
+// (it checks 81 text/background pairs for WCAG AA and APCA, plus colour-blind separation), then paste its
+// `--swift` output here. Views never use these ramps directly; they use the semantic `Brand` roles below.
+//
+// The ramps are OKLCH with fixed lightness per step, so every hue's 100 (or 700) carries the same weight.
+// One rule holds for every hue:
+//     600 is text-safe on white, on 50 and on 100 (≥ 4.6:1), and white text on 600 passes AA (≥ 5.3:1).
+// 50/100 = tints (chips, tiles, wells) · 300 = bright fills · 600 = the colour itself · 700+ = deep accents.
 
-    /// On the dark video cards: one pastel family (oklch L ≈ .83, C ≈ .09) for the tag capsules (black text),
-    /// and brighter right/wrong marks that read on dark glass.
+/// One hue from 50 (palest) to 900 (deepest).
+struct Ramp {
+    let s50, s100, s200, s300, s400, s500, s600, s700, s800, s900: Color
+    init(_ h: UInt32...) {
+        precondition(h.count == 10)
+        (s50, s100, s200, s300, s400) = (Color(hex: h[0]), Color(hex: h[1]), Color(hex: h[2]), Color(hex: h[3]), Color(hex: h[4]))
+        (s500, s600, s700, s800, s900) = (Color(hex: h[5]), Color(hex: h[6]), Color(hex: h[7]), Color(hex: h[8]), Color(hex: h[9]))
+    }
+}
+
+enum Palette {
+    /// 藍 ai — primary; the lavender→periwinkle sky of the art
+    static let indigo = Ramp(0xF6F6FF, 0xEBEBFF, 0xD8D8FF, 0xC2C2FF, 0xA5A4FF, 0x8782F6, 0x615ACF, 0x4D46B1, 0x39338D, 0x252165)
+    /// indigo-tinted greys; ink is a deep indigo, never flat black
+    static let neutral = Ramp(0xF7F6FC, 0xF0EFF8, 0xE3E1ED, 0xC6C6D4, 0xA6A6B8, 0x848499, 0x6D6D87, 0x555674, 0x3F4063, 0x292850)
+    /// 桜 sakura — the blossoms; skill: speaking
+    static let sakura = Ramp(0xFFF3F7, 0xFDE6ED, 0xFBCEDD, 0xFAB1C9, 0xEF8CAF, 0xD86A92, 0xB0416C, 0x942E55, 0x741E3F, 0x53102A)
+    /// 山吹 yamabuki — rewards, the next unlock; skill: writing
+    static let gold = Ramp(0xFBF7EB, 0xF5ECD7, 0xEEDBB0, 0xF6BF51, 0xDCA534, 0xC18700, 0x8F6100, 0x7A4F00, 0x5F3B00, 0x432600)
+    /// 空 sora — skill: reading
+    static let sky = Ramp(0xEFF8FF, 0xDFEFFD, 0xC0E1FC, 0x9AD0FC, 0x6CB7F5, 0x449AE1, 0x016DB5, 0x005C9E, 0x00457C, 0x002E59)
+    /// 浅葱 asagi teal — skill: listening
+    static let asagi = Ramp(0xEFF9F9, 0xDFF1F1, 0xBFE5E4, 0x96D7D5, 0x60C2C0, 0x27A8A5, 0x007774, 0x006764, 0x004F4C, 0x003634)
+    /// 抹茶 matcha — right, learned, success
+    static let matcha = Ramp(0xF0FAF1, 0xE1F2E3, 0xC4E7CA, 0x9EDAAA, 0x6EC686, 0x3FAC66, 0x007B3F, 0x006C38, 0x00522B, 0x00381C)
+    /// 柿 kaki persimmon — "again", gentle warning
+    static let kaki = Ramp(0xFFF5ED, 0xFDE8DB, 0xFBD3B9, 0xFBB88D, 0xF29659, 0xDB742A, 0xAB4E00, 0x8F3E00, 0x6F2D00, 0x4E1C00)
+    /// 紅 beni crimson — wrong, destructive
+    static let beni = Ramp(0xFFF4F3, 0xFFE6E4, 0xFFCFCB, 0xFFB2AD, 0xFF8783, 0xEF5B5D, 0xC72C38, 0xA61126, 0x830019, 0x5C000F)
+    /// 氷 kōri — streak freeze
+    static let ice = Ramp(0xEFF9FC, 0xE0F0F7, 0xC2E2F1, 0x9BD2EB, 0x6CBBDE, 0x40A0C7, 0x007398, 0x006283, 0x004A65, 0x003347)
+}
+
+// MARK: - Brand (semantic roles)
+
+/// What views use. Each role names a job, not a hue, and points at one palette step.
+enum Brand {
+    // Text and surfaces (light dashboard)
+    static let ink = Palette.neutral.s900          // primary text (12.9:1 on the page)
+    static let ink2 = Palette.neutral.s700         // secondary text, icons (6.6:1)
+    static let ink3 = Palette.neutral.s500         // chevrons, close buttons, inactive (≥ 3:1, icons only — not for text)
+    static let sky = Palette.neutral.s50           // page background
+    static let surface = Color.white               // cards
+    static let mist = Palette.neutral.s100         // wells, quiet chips, quiet buttons
+    static let line = Palette.neutral.s200         // hairlines, empty progress tracks
+    /// Dark scrim at the bottom of full-bleed pictures, so white text on them stays readable.
+    static let scrim = Palette.indigo.s900
+
+    // Primary: indigo
+    static let violet = Palette.indigo.s600        // buttons, tint, progress, selected
+    static let violetSoft = Palette.indigo.s100    // secondary buttons, selected chips
+    static let violetDeep = Palette.indigo.s700    // accent text, pressed primary
+    /// The hero cards (next unlock): deeper than the buttons so gold and white text both read on them.
+    static let heroGradient = LinearGradient(colors: [Palette.indigo.s700, Palette.indigo.s800],
+                                             startPoint: .topLeading, endPoint: .bottomTrailing)
+
+    // Accents
+    static let sakura = Palette.sakura.s300        // blossom fills, confetti
+    static let sakuraSoft = Palette.sakura.s100
+    static let cream = Palette.gold.s50            // warm wells
+    static let sun = Palette.gold.s300             // yamabuki: bars, rings, coins — fills only, never text on white
+    static let sunSoft = Palette.gold.s100
+    static let sunDeep = Palette.gold.s600         // gold as text or icon (rewards, "today", "new")
+
+    // Status: each colour is text-safe on white and on its own Soft tint
+    static let success = Palette.matcha.s600       // right, learned, done
+    static let successSoft = Palette.matcha.s100
+    static let warn = Palette.kaki.s600            // "again", missed — always with an icon or word
+    static let warnSoft = Palette.kaki.s100
+    static let danger = Palette.beni.s600          // wrong, destructive — always with an icon or word
+    static let dangerSoft = Palette.beni.s100
+    static let ice = Palette.ice.s600              // streak freeze
+    static let iceSoft = Palette.ice.s100
+
+    /// On the indigo hero cards.
+    enum OnIndigo {
+        static let gold = Color(hex: 0xFCDA86)     // oklch(.90 .11 88): labels and fills (≥ 5.5:1 on the card)
+        static let muted = Palette.indigo.s50      // secondary text (not white at reduced opacity)
+    }
+
+    /// On the dark glass cards over video. One bright pastel family (oklch L ≈ .80–.88) that always takes
+    /// black text when used as a capsule fill (≥ 10:1), plus the highlight gold and the right/wrong marks.
     enum OnDark {
-        static let cyan = Color(hex: 0x81DAEF)
-        static let warm = Color(hex: 0xFBBB87)
-        static let mint = Color(hex: 0x8FE6C1)
-        static let violet = Color(hex: 0xC2B1F8)
+        static let gold = Color(hex: 0xFFD15A)     // the highlight: the Japanese word, the answer, the main button
+        static let cyan = Color(hex: 0x7FDEF5)
+        static let peach = Color(hex: 0xFBBA8F)
+        static let mint = Color(hex: 0x93E6BD)
+        static let violet = Color(hex: 0xBFB2F9)
         static let pink = Color(hex: 0xF8A9C7)
-        static let teal = Color(hex: 0x8BDCD6)
-        static let gray = Color(hex: 0xC3C3CA)
-        static let right = Color(hex: 0x62D286)
-        static let wrong = Color(hex: 0xF66D67)
+        static let lime = Color(hex: 0xC5E68C)
+        static let gray = Color(hex: 0xC6C6CF)
+        static let right = Color(hex: 0x86F09F)
+        static let wrong = Color(hex: 0xFFB7C7)    // rose, not red: stays apart from `right` for red-green colour blindness
     }
 
     /// Japanese text: Hiragino Maru Gothic (rounded, ships with iOS), scaled with Dynamic Type.
@@ -73,23 +131,18 @@ enum Skill: String, Codable, CaseIterable, Identifiable {
         case .speaking: return "mic.fill"
         }
     }
-    var color: Color {
+    /// Four brand hues: sky, asagi teal, yamabuki gold, sakura. Each is the ramp's 600, so it's text-safe on
+    /// white and on `soft`. Skills always show with their icon or in a fixed order, so colour is never the only cue.
+    private var ramp: Ramp {
         switch self {
-        // Equal OKLCH lightness (≈ .54) and similar chroma: four hues, one weight.
-        case .reading: return Color(hex: 0x396CB7)     // oklch(.535 .13 258)
-        case .listening: return Color(hex: 0x097F7C)   // oklch(.54 .095 192)
-        case .writing: return Color(hex: 0x9D651C)     // oklch(.555 .11 68)
-        case .speaking: return Color(hex: 0xB34460)    // oklch(.545 .145 8)
+        case .reading: return Palette.sky
+        case .listening: return Palette.asagi
+        case .writing: return Palette.gold
+        case .speaking: return Palette.sakura
         }
     }
-    var soft: Color {
-        switch self {
-        case .reading: return Color(hex: 0xE5EFFE)
-        case .listening: return Color(hex: 0xDCF4F3)
-        case .writing: return Color(hex: 0xFBEEDA)
-        case .speaking: return Color(hex: 0xFFE8EB)
-        }
-    }
+    var color: Color { ramp.s600 }
+    var soft: Color { ramp.s100 }
 }
 
 /// White rounded card with the soft violet lift shadow.
@@ -104,7 +157,7 @@ struct BrandCard: ViewModifier {
             .background(
                 RoundedRectangle(cornerRadius: 24, style: .continuous)
                     .fill(fill)
-                    .shadow(color: Color(hex: 0x29294D, opacity: 0.07), radius: 14, y: 6)
+                    .shadow(color: Brand.ink.opacity(0.07), radius: 14, y: 6)
             )
     }
 }

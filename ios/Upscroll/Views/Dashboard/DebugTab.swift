@@ -46,7 +46,7 @@ struct DebugTab: View {
     }
 
     private func row(_ k: String, _ v: String) -> some View {
-        HStack { Text(k); Spacer(); Text(v).foregroundStyle(.secondary).multilineTextAlignment(.trailing) }
+        HStack { Text(k); Spacer(); Text(v).foregroundStyle(Brand.ink2).multilineTextAlignment(.trailing) }
     }
 
     private func pct(_ x: Double) -> String { String(format: "%.0f%%", x * 100) }

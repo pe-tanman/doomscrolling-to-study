@@ -22,7 +22,7 @@ struct SubtitleOverlay: View {
             } else if let e = recent, session.currentSwap == nil {
                 Button { lookUp(e); Speech.shared.say(e.kana) } label: {
                     HStack(spacing: 6) {
-                        Text(e.kana).font(.subheadline.weight(.heavy)).foregroundStyle(.yellow)
+                        Text(e.kana).font(.subheadline.weight(.heavy)).foregroundStyle(Brand.OnDark.gold)
                         Text(e.romaji).font(.caption.weight(.semibold)).foregroundStyle(.white)
                         Image(systemName: "hand.tap.fill").font(.subheadline).foregroundStyle(.white)
                     }
@@ -93,11 +93,11 @@ struct SubtitleOverlay: View {
     /// Instant lookup: kana, romaji and the English meaning right above the line.
     private func meaningBubble(_ e: VocabEntry) -> some View {
         HStack(spacing: 8) {
-            Text(e.mainKana).font(.headline.weight(.heavy)).foregroundStyle(.yellow)
+            Text(e.mainKana).font(.headline.weight(.heavy)).foregroundStyle(Brand.OnDark.gold)
             Text(e.mainRomaji).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
             Text("=").foregroundStyle(.white)
             Text(session.vocab.shortMeaning(e)).font(.headline).foregroundStyle(.white)
-            Image(systemName: "speaker.wave.2.fill").font(.subheadline).foregroundStyle(.yellow)
+            Image(systemName: "speaker.wave.2.fill").font(.subheadline).foregroundStyle(Brand.OnDark.gold)
         }
         .padding(.vertical, 8).padding(.horizontal, 12)
         .glass(cornerRadius: 14, tint: .black.opacity(0.55))
@@ -131,9 +131,9 @@ struct SubtitleOverlay: View {
                 } label: {
                     VStack(spacing: 0) {
                         if let sub = shown.sub {
-                            Text(sub).font(.subheadline).foregroundStyle(.yellow)
+                            Text(sub).font(.subheadline).foregroundStyle(Brand.OnDark.gold)
                         }
-                        Text(shown.main).font(.headline.weight(.heavy)).foregroundStyle(.yellow)
+                        Text(shown.main).font(.headline.weight(.heavy)).foregroundStyle(Brand.OnDark.gold)
                     }
                     .padding(.horizontal, 4)
                     // Soft pulse when a Japanese word appears, so it's noticed in a fast-changing line.
@@ -151,7 +151,7 @@ struct SubtitleOverlay: View {
             VStack(spacing: 2) {
                 plain(cue.text).multilineTextAlignment(.center)
                 Text(Romanize.pronounced(cue.text))
-                    .font(.subheadline).foregroundStyle(.yellow)
+                    .font(.subheadline).foregroundStyle(Brand.OnDark.gold)
                     .multilineTextAlignment(.center)
             }
             .padding(.vertical, 6).padding(.horizontal, 10)

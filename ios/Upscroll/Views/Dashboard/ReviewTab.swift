@@ -320,7 +320,7 @@ struct ReviewTab: View {
             .background(Brand.surface, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
             .overlay {
                 if let ok = outcome {
-                    RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(ok ? Color.green : Brand.danger, lineWidth: 2)
+                    RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(ok ? Brand.success : Brand.danger, lineWidth: 2)
                 }
             }
             FlowTiles(items: q.tiles, style: .bank, used: Set(placed), romaji: romaji) { i in

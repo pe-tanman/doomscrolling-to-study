@@ -24,7 +24,7 @@ struct OriginalCardView: View {
                     .overlay(Image(card.kind == .miniReel ? "scene_reel" : card.place.scene).resizable().scaledToFill())
                     .clipped()
                     .ignoresSafeArea()
-                    .overlay(LinearGradient(colors: [.clear, Color(hex: 0x1A1433, opacity: 0.7)], startPoint: .center, endPoint: .bottom).ignoresSafeArea())
+                    .overlay(LinearGradient(colors: [.clear, Brand.scrim.opacity(0.75)], startPoint: .center, endPoint: .bottom).ignoresSafeArea())
                     .accessibilityHidden(true)
             }
 

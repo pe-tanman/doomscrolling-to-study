@@ -238,11 +238,11 @@ struct RootView: View {
     private func lessonBadge(_ l: LessonVideo) -> some View {
         VStack {
             HStack(spacing: 8) {
-                Image(systemName: "graduationcap.fill").foregroundStyle(Brand.sun)
+                Image(systemName: "graduationcap.fill").foregroundStyle(Brand.OnDark.gold)
                 Text(l.title).font(.caption.weight(.semibold)).foregroundStyle(.white).lineLimit(1)
                 HStack(spacing: 4) {
                     ForEach(0..<l.checkpoints.count, id: \.self) { i in
-                        Circle().fill(session.lessonCheckpointsDone.contains(i) ? Brand.sun : .white.opacity(0.35)).frame(width: 7, height: 7)
+                        Circle().fill(session.lessonCheckpointsDone.contains(i) ? Brand.OnDark.gold : .white.opacity(0.35)).frame(width: 7, height: 7)
                     }
                 }
             }
@@ -269,7 +269,7 @@ struct RootView: View {
                 Button("Reload") { session.web.webView?.reload() }
                     .font(.subheadline.weight(.bold))
                     .padding(.horizontal, 16).padding(.vertical, 8)
-                    .background(.yellow, in: Capsule()).foregroundStyle(.black)
+                    .background(Brand.OnDark.gold, in: Capsule()).foregroundStyle(.black)
                     .accessibilityIdentifier("reload-feed")
             }
         }
@@ -307,7 +307,7 @@ struct RootView: View {
                         Text("Sign in")
                             .font(.subheadline.weight(.bold))
                             .padding(.horizontal, 12).padding(.vertical, 8)
-                            .background(.yellow, in: Capsule())
+                            .background(Brand.OnDark.gold, in: Capsule())
                             .foregroundStyle(.black)
                     }
                 }
@@ -360,7 +360,7 @@ struct RootView: View {
                                     .font(.caption2.weight(.heavy))
                                     .foregroundStyle(.black)
                                     .padding(.horizontal, 5).padding(.vertical, 2)
-                                    .background(.yellow, in: Capsule())
+                                    .background(Brand.OnDark.gold, in: Capsule())
                                     .offset(x: 6, y: -4)
                             }
                         }
