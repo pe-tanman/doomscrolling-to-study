@@ -25,6 +25,7 @@ F_SANS_SB = "/usr/share/fonts/opentype/inter/Inter-SemiBold.otf"
 F_SANS_M = "/usr/share/fonts/opentype/inter/Inter-Medium.otf"
 F_SERIF_I = str(ROOT / "fonts/instrument-serif-latin-400-italic.woff")
 F_JP = "/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf"
+BADGE = ROOT / "brand/app-store-badge.png"  # Apple's official badge, rendered from brand/download-on-the-app-store.svg
 
 BG = (242, 241, 238)
 INK = (27, 26, 46)
@@ -139,17 +140,17 @@ def headline(frame, t, t0, l1, l2, y=330, dark=False, size2=108, gap=92):
     paste_fx(frame, b, W / 2, y + gap, t, t0 + 0.18)
 
 
-CHAPTERS = ["RIP", "THE PROBLEM", "HOW IT WORKS", "THE WIN"]
+CHAPTERS = ["THE PROBLEM", "HOW IT WORKS", "THE WIN"]
 
 
 def chapter_pills(frame, t, t0, active, dark=False):
     d = ImageDraw.Draw(frame)
     f = font(F_SANS_SB, 24)
     items = []
-    for i in range(4):
+    for i in range(len(CHAPTERS)):
         label = f"0{i + 1}" + (f"  ·  {CHAPTERS[i]}" if i == active else "")
         items.append((label, d.textlength(label, font=f) + 36))
-    total = sum(w for _, w in items) + 12 * 3
+    total = sum(w for _, w in items) + 12 * (len(items) - 1)
     x = (W - total) / 2
     a = ease_out((t - t0) / 0.3)
     if a <= 0:
@@ -218,12 +219,12 @@ class Captions:
 def build_timeline():
     S = {}
     t = 0.0
-    for name, dur in [("s1", 2.8), ("s2", 3.6), ("s3", 1.8), ("s4", 4.0), ("s5", 3.2), ("s6", 2.8), ("s7", 3.4), ("s8", 3.6)]:
+    for name, dur in [("s1", 2.6), ("s2", 2.6), ("s3", 1.8), ("s4", 4.0), ("s5", 3.2), ("s6", 2.8), ("s8", 4.4)]:
         S[name] = (t, t + dur)
         t += dur
     vo = {  # VO file -> absolute start
-        "vo1": S["s1"][0] + 0.3, "vo2": S["s2"][0] + 0.15, "vo3": S["s3"][0] + 0.2, "vo4": S["s4"][0] + 0.15,
-        "jp1": S["s5"][0] + 0.15, "vo5": S["s5"][0] + 1.4, "vo6": S["s6"][0] + 0.15, "vo7": S["s7"][0] + 0.15,
+        "vo1": S["s1"][0] + 0.25, "vo2": S["s2"][0] + 0.1, "vo3": S["s3"][0] + 0.2, "vo4": S["s4"][0] + 0.15,
+        "jp1": S["s5"][0] + 0.15, "vo5": S["s5"][0] + 1.4, "vo6": S["s6"][0] + 0.15,
         "vo8": S["s8"][0] + 1.15,
     }
     return S, vo, t
@@ -232,15 +233,17 @@ def build_timeline():
 def render(out_video, plates_override=None, scale=1.0):
     S, VO, total = build_timeline()
     plates = {
-        "s1": Plate(IMG / "p1.jpg", 1.0, 1.05), "s2": Plate(IMG / "p2.jpg", 1.04, 1.0),
+        "s1": Plate(IMG / "p1.jpg", 0.915, 0.96), "s2": Plate(IMG / "p2.jpg", 1.04, 1.0),
         "s3": Plate(IMG / "p3.jpg", 1.0, 1.08), "s4": Plate(IMG / "p4.jpg", 1.0, 1.04),
         "s5": Plate(IMG / "p5.jpg", 1.0, 1.1), "s6": Plate(IMG / "p6.jpg", 1.0, 1.04, shrink=0.66),
-        "s7": Plate(IMG / "p7.jpg", 1.0, 1.05), "s8": Plate(IMG / "p8.jpg", 1.0, 1.03),
+        "s8": Plate(IMG / "p8.jpg", 1.0, 1.03),
     }
     if plates_override:
         plates.update(plates_override)
-    caps = {k: Captions(k, v) for k, v in VO.items() if k.startswith("vo") and k not in ("vo1", "vo3", "vo5", "vo7", "vo8")}
+    caps = {k: Captions(k, v) for k, v in VO.items() if k.startswith("vo") and k not in ("vo1", "vo2", "vo3", "vo5", "vo8")}
     vo5 = Captions("vo5", VO["vo5"])
+    badge = Image.open(BADGE).convert("RGBA")
+    badge = badge.resize((440, round(440 * badge.height / badge.width)), Image.LANCZOS)
 
     ow, oh = int(W * scale) // 2 * 2, int(H * scale) // 2 * 2
     ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
@@ -262,22 +265,28 @@ def render(out_video, plates_override=None, scale=1.0):
 
         if scene == "s1":
             chapter_pills(fr, t, a + 0.1, 0)
-            headline(fr, t, a + 0.25, "Say goodbye to", "doomscrolling.")
+            headline(fr, t, a + 0.2, "You can't do", "5 minutes of Duolingo…")
+            # the daily lesson gets skipped
+            chip, pad = shadow_box((450, 96), 48)
+            d = ImageDraw.Draw(chip)
+            d.ellipse((pad + 34, pad + 36, pad + 58, pad + 60), fill=SAKURA)
+            d.text((pad + 78, pad + 24), "Daily lesson · skipped", font=font(F_SANS_M, 36), fill=INK)
+            paste_fx(fr, chip, W / 2, 1470, t, a + 1.25, scale_from=0.7)
         elif scene == "s2":
-            chapter_pills(fr, t, a, 1)
-            headline(fr, t, a + 0.15, "Hours of scrolling,", "nothing to show.")
+            chapter_pills(fr, t, a, 0)
+            headline(fr, t, a + 0.1, "…but you doomscroll", "for hours.")
             # screen-time chip counting up
-            if t > a + 0.5:
-                mins = int(47 + (192 - 47) * ease_out((t - a - 0.5) / 2.6))
+            if t > a + 0.3:
+                mins = int(47 + (192 - 47) * ease_out((t - a - 0.3) / 1.9))
                 chip, pad = shadow_box((450, 96), 48)
                 d = ImageDraw.Draw(chip)
                 d.text((pad + 34, pad + 26), "Screen time", font=font(F_SANS_M, 34), fill=MUTED)
                 d.text((pad + 258, pad + 22), f"{mins // 60}h {mins % 60:02d}m", font=font(F_SANS_B, 38), fill=SAKURA)
-                paste_fx(fr, chip, W / 2, 1470, t, a + 0.5, scale_from=0.7)
+                paste_fx(fr, chip, W / 2, 1470, t, a + 0.3, scale_from=0.7)
         elif scene == "s3":
             headline(fr, t, a + 0.15, "Meet", "Upscroll.", y=790, dark=True, size2=210, gap=150)
         elif scene == "s4":
-            chapter_pills(fr, t, a, 2)
+            chapter_pills(fr, t, a, 1)
             headline(fr, t, a + 0.15, "Your feed,", "now in Japanese.", y=250)
             swap = a + 1.75
             fe, fj = font(F_SANS_B, 46), font(F_JP, 50)
@@ -297,7 +306,7 @@ def render(out_video, plates_override=None, scale=1.0):
                 d.text((jx, pad + 22), "つかれた", font=fj, fill=WHITE, stroke_width=1, stroke_fill=WHITE)
                 paste_fx(fr, pill, 539, 1300, t, swap, dur=0.35, scale_from=0.75)
         elif scene == "s5":
-            chapter_pills(fr, t, a, 2)
+            chapter_pills(fr, t, a, 1)
             card, pad = shadow_box((740, 330), 48)
             d = ImageDraw.Draw(card)
             jt = text_img("つかれた", font(F_JP, 132), INK, stroke=3)
@@ -317,11 +326,8 @@ def render(out_video, plates_override=None, scale=1.0):
                 if on:
                     ImageDraw.Draw(fr).ellipse((W / 2 - lay.width / 2 - 18, y - 12, W / 2 - lay.width / 2 + 6, y + 12), fill=ACCENT)
         elif scene == "s6":
-            chapter_pills(fr, t, a, 3)
+            chapter_pills(fr, t, a, 2)
             headline(fr, t, a + 0.15, "Every scroll,", "a step through Japan.", y=255)
-        elif scene == "s7":
-            chapter_pills(fr, t, a, 3)
-            headline(fr, t, a + 0.15, "Scrolling isn't dead.", "Mindless scrolling is.")
         elif scene == "s8":
             word = "Upscroll"
             t_type0, t_click = a + 0.2, a + 1.05
@@ -341,6 +347,8 @@ def render(out_video, plates_override=None, scale=1.0):
                 paste_fx(fr, text_img("Upscroll", font(F_SANS_B, 150), INK), W / 2, 640, t, t_click + 0.1, dur=0.45, scale_from=0.8)
                 paste_fx(fr, text_img("Learn Japanese", font(F_SANS_M, 58), INK), W / 2, 800, t, t_click + 0.35)
                 paste_fx(fr, text_img("while you scroll.", font(F_SERIF_I, 92), ACCENT), W / 2, 885, t, t_click + 0.5)
+                if t >= t_click + 0.75:  # Apple badge: unmodified, no motion
+                    fr.alpha_composite(badge, (int(W / 2 - badge.width / 2), 1080))
 
         for c in caps.values():
             c.draw(fr, t, dark=(scene == "s3"))
@@ -354,12 +362,12 @@ def mix_audio(S, VO, total, out):
     cues = [(k, v, 0) for k, v in VO.items()]
     s = lambda k: S[k][0]
     cues += [
-        ("sfx_scrollloop", 0.0, -12), ("sfx_click", s("s1") + 0.25, -10),
-        ("sfx_swipe", s("s2") - 0.12, -6), ("sfx_pop", s("s2") + 0.5, -10),
+        ("sfx_click", s("s1") + 0.15, -10), ("sfx_pop", s("s1") + 1.25, -8),
+        ("sfx_swipe", s("s2") - 0.12, -6), ("sfx_scrollloop", s("s2"), -12), ("sfx_pop", s("s2") + 0.3, -10),
         ("sfx_riser", s("s3") - 1.9, -12), ("sfx_thud", s("s3"), -4),
         ("sfx_swipe", s("s4") - 0.12, -6), ("sfx_pop", s("s4") + 1.75, -3),
         ("sfx_pop", s("s5") + 0.1, -6), ("sfx_record", s("s5") + 1.4, -12),
-        ("sfx_swipe", s("s6") - 0.12, -6), ("sfx_swipe", s("s7") - 0.12, -6),
+        ("sfx_swipe", s("s6") - 0.12, -6),
         ("sfx_typing", s("s8") + 0.2, -8), ("sfx_click", s("s8") + 1.05, -4), ("sfx_chime", s("s8") + 1.1, -6),
     ]
     inputs, chain, labels = [], [], []
@@ -369,10 +377,15 @@ def mix_audio(S, VO, total, out):
         chain.append(f"[{i}:a]aresample=48000,volume={g}dB,adelay={ms}|{ms}[a{i}]")
         labels.append(f"[a{i}]")
     m = len(cues)
-    inputs += ["-stream_loop", "2", "-i", str(AUD / "music.mp3")]
+    # music in two parts, as in the references: a tense 120 bpm intro under the problem,
+    # then the main track drops on the reveal ("Meet Upscroll")
     s3 = s("s3")
-    chain.append(f"[{m}:a]aresample=48000,atrim=0:{total},volume='if(lt(t,{s3}),0.22,if(lt(t,{s3}+0.3),0.05,0.4))':eval=frame,"
-                 f"afade=t=in:d=0.6,afade=t=out:st={total - 1.4}:d=1.4[mus]")
+    ms3 = int(s3 * 1000)
+    inputs += ["-i", str(AUD / "music_intro.mp3"), "-stream_loop", "1", "-i", str(AUD / "music_main_a.mp3")]
+    chain.append(f"[{m}:a]aresample=48000,atrim=0:{s3},volume=0.6,afade=t=in:d=0.2,afade=t=out:st={s3 - 0.08}:d=0.08[intro]")
+    chain.append(f"[{m + 1}:a]aresample=48000,atrim=0:{total - s3},volume=0.5,afade=t=out:st={total - s3 - 1.2}:d=1.2,"
+                 f"adelay={ms3}|{ms3}[main]")
+    chain.append("[intro][main]amix=inputs=2:normalize=0[mus]")
     chain.append(f"{''.join(labels)}amix=inputs={m}:normalize=0,asplit=2[fx][side]")
     chain.append("[mus][side]sidechaincompress=threshold=0.05:ratio=4:attack=20:release=300[duck]")
     chain.append(f"[fx][duck]amix=inputs=2:normalize=0,apad,atrim=0:{total},loudnorm=I=-14:TP=-1.5:LRA=11[aout]")
