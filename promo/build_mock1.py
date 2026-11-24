@@ -380,24 +380,29 @@ def aura(frame, t, cx, cy, strength=1.0):
 
 
 # ---------- typography ----------
-def kinetic(frame, t, t0, text, path, size, color, cy, stagger=0.07):
+def kinetic(frame, t, t0, text, path, size, color, cy, stagger=0.07, grad=None):
     """Words build in one by one with a blur-in and a small rise (Holo / Relocate)."""
     f = font(path, size)
     words = text.split(" ")
     sp = f.getlength(" ")
     widths = [f.getlength(w) for w in words]
     x = W / 2 - (sum(widths) + sp * (len(words) - 1)) / 2
+    x0, x1 = x, x + sum(widths) + sp * (len(words) - 1)
     for k, (w, ww) in enumerate(zip(words, widths)):
-        paste_fx(frame, word_img(w, path, size, color), x + ww / 2, cy, t, t0 + k * stagger, dur=0.38, rise=30, blur=14)
+        lay = grad_word(w, path, size, grad[0], grad[1], int(x0), int(x1), int(x)) if grad else word_img(w, path, size, color)
+        paste_fx(frame, lay, x + ww / 2, cy, t, t0 + k * stagger, dur=0.38, rise=30, blur=14)
         x += ww + sp
     return t0 + len(words) * stagger
 
 
-def headline(frame, t, t0, l1, l2, y=200, dark=False, size1=56, size2=92):
+HEAD_GRAD = ((97, 90, 207), (216, 106, 146))  # indigo -> sakura, on the key line
+
+
+def headline(frame, t, t0, l1, l2, y=200, dark=False, size1=56, size2=92, grad=False):
     c1 = (215, 214, 245) if dark else INK2
     c2 = WHITE if dark else INK
     t1 = kinetic(frame, t, t0, l1, F_SEMI, size1, c1, y)
-    kinetic(frame, t, t1 + 0.05, l2, F_BOLD, size2, c2, y + size1 * 0.62 + size2 * 0.6)
+    kinetic(frame, t, t1 + 0.05, l2, F_BOLD, size2, c2, y + size1 * 0.62 + size2 * 0.6, grad=HEAD_GRAD if grad else None)
 
 
 # ---------- 3D and motion helpers ----------
@@ -434,7 +439,10 @@ def whip(fr, lt, direction, dur=0.28):
         return fr
     k = 1 - p
     blurred = fr.resize((max(16, int(W / (1 + 30 * k))), H), Image.BILINEAR).resize((W, H), Image.BILINEAR)
-    return ImageChops.offset(blurred, int(direction * k * 380), 0)
+    out = ImageChops.offset(blurred, int(direction * k * 380), 0)
+    r, g, b, a = out.split()  # RGB split while it moves
+    sh = int(direction * k * 16)
+    return Image.merge("RGBA", (ImageChops.offset(r, sh, 0), g, ImageChops.offset(b, -sh, 0), a))
 
 
 def zoom_through(fr, p, cx, cy):
@@ -712,6 +720,10 @@ def subtitle_layer(scr, t, t_in, t_swap):
     x = x0
     for (p, f), w in zip(parts, widths):
         if swapped and f is fj:
+            gl = clamp(1 - (t - t_swap) / 1.2)
+            if gl > 0:  # warm glow blooming behind the new word
+                g = soft_glow(GOLD, int(200 * gl), int(w * 0.9))
+                composite(scr, g, x + w / 2 - g.width / 2, y0 + 27 - g.height / 2)
             pop = ease_back((t - t_swap) / 0.35, 2.5)
             lay = text_img(p, F_JP, max(8, int(44 * (0.6 + 0.4 * pop))), GOLD)
             composite(scr, lay, x + w / 2 - lay.width / 2, y0 + 27 - lay.height / 2)
@@ -975,6 +987,101 @@ def pin(frame, n, x, y, t, t0):
     composite(frame, lay, x - lay.width / 2, y - lay.height / 2)
 
 
+# ---------- extra polish (final) ----------
+@lru_cache(None)
+def star_img(size, color):
+    s = size * 4
+    im = Image.new("RGBA", (s, s), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    c = s / 2
+    pts = []
+    for k in range(8):  # 4-point sparkle
+        r = s / 2 if k % 2 == 0 else s * 0.12
+        a = k * math.pi / 4 - math.pi / 2
+        pts.append((c + math.cos(a) * r, c + math.sin(a) * r))
+    d.polygon(pts, fill=(*color, 255))
+    glow = im.filter(ImageFilter.GaussianBlur(s * 0.08))
+    glow.alpha_composite(im)
+    return glow.resize((size, size), Image.LANCZOS)
+
+
+def sparkle_burst(frame, t, t0, cx, cy, n=14, color=GOLD, radius=240, dur=0.9, seed=3):
+    """Twinkling 4-point stars flying outward (the sparkles in Audixa / the SFX reels)."""
+    if not (t0 <= t <= t0 + dur):
+        return
+    rnd = random.Random(seed)
+    p = (t - t0) / dur
+    for _ in range(n):
+        ang = rnd.uniform(0, 2 * math.pi)
+        dist = rnd.uniform(0.4, 1.0) * radius
+        size = rnd.randint(18, 42)
+        delay = rnd.uniform(0, 0.25)
+        q = clamp((p - delay) / (1 - delay))
+        if q <= 0:
+            continue
+        sc = math.sin(q * math.pi) * (0.8 + 0.2 * math.sin(q * 30 + ang * 5))
+        sz = max(4, int(size * sc))
+        x = cx + math.cos(ang) * dist * ease_out(q)
+        y = cy + math.sin(ang) * dist * ease_out(q)
+        im = star_img(sz, color)
+        composite(frame, im, x - sz / 2, y - sz / 2)
+
+
+def shine_sweep(frame, layer, x, y, p, width=140):
+    """A diagonal light band sweeping across a layer's shape (p: 0..1)."""
+    if not (0 < p < 1):
+        return
+    w, h = layer.size
+    band = Image.new("L", (w, h), 0)
+    bx = -width + (w + width * 2) * p
+    ImageDraw.Draw(band).polygon([(bx, h), (bx + width * 0.5, h), (bx + width * 0.5 + h * 0.4, 0), (bx + h * 0.4, 0)], fill=200)
+    band = band.filter(ImageFilter.GaussianBlur(width * 0.18))
+    mask = ImageChops.multiply(band, layer.getchannel("A"))
+    white = Image.new("RGBA", (w, h), (255, 255, 255, 0))
+    white.putalpha(mask)
+    composite(frame, white, x, y)
+
+
+def drop_flash(fr, t, t0, cx, cy):
+    """Bloom flash + short camera shake on the music drop."""
+    if not (t0 <= t <= t0 + 0.5):
+        return fr
+    p = (t - t0) / 0.5
+    g = soft_glow((200, 196, 255), 255, 520)
+    composite(fr, with_alpha(g, (1 - p) ** 2), cx - g.width / 2, cy - g.height / 2)
+    if p < 0.6:
+        k = (1 - p / 0.6) ** 2
+        rnd = random.Random(int(t * 1000))
+        fr = ImageChops.offset(fr, int(rnd.uniform(-1, 1) * 18 * k), int(rnd.uniform(-1, 1) * 18 * k))
+    return fr
+
+
+def beat_pulse(fr, t, t_drop, amount=0.014, bpm=120):
+    """Subtle zoom punch on every beat after the drop (as cut to the music in the references)."""
+    if t < t_drop:
+        return fr
+    ph = ((t - t_drop) % (60 / bpm)) / (60 / bpm)
+    z = 1 + amount * math.exp(-ph * 9)
+    if z < 1.001:
+        return fr
+    cw, ch = W / z, H / z
+    return fr.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+
+
+@lru_cache(None)
+def grad_word(txt, path, size, c1, c2, x0, x1, xw):
+    """A word filled with a horizontal gradient that spans the whole line (x0..x1); xw = word's left edge."""
+    base = word_img(txt, path, size, (255, 255, 255))
+    w, h = base.size
+    g = Image.new("RGB", (w, 1))
+    for x in range(w):
+        f = clamp((xw - 24 + x - x0) / max(1, x1 - x0))
+        g.putpixel((x, 0), tuple(int(c1[i] + (c2[i] - c1[i]) * f) for i in range(3)))
+    out = g.resize((w, h)).convert("RGBA")
+    out.putalpha(base.getchannel("A"))
+    return out
+
+
 # ---------- timeline ----------
 def build_timeline():
     S, t = {}, 0.0
@@ -1073,7 +1180,7 @@ def render(out_video, scale=1.0, only=None):
                         composite(fr, lay, 960 + zt * 50, 1560 - zt * 140)
             else:
                 floaters(fr, t, lt, front=True)
-                headline(fr, t, a + 0.1, "…but you doomscroll", "for hours.", y=230, size2=100)
+                headline(fr, t, a + 0.1, "…but you doomscroll", "for hours.", y=230, size2=100, grad=True)
                 mins = 12 + (192 - 12) * ease_in_out((lt - 0.2) / 2.3)
                 glass_layer(fr, screen_time_content(mins), W / 2, 1810, 50, t, a + 0.2, tint=(255, 255, 255, 120))
         elif scene == "reveal":
@@ -1095,7 +1202,13 @@ def render(out_video, scale=1.0, only=None):
             pd.rounded_rectangle((0, 0, 519, 111), 56, fill=GOLD)
             pd.text((260 - pd.textlength("Japanese lessons", font=font(F_BOLD, 50)) / 2, 22), "Japanese lessons", font=font(F_BOLD, 50), fill=(20, 18, 40))
             paste_fx(fr, pill, W / 2, 992, t, t_japanese - 0.05, dur=0.45, scale_from=0.4)
+            shine_sweep(fr, pill, W / 2 - pill.width / 2, 992 - pill.height / 2, (t - t_japanese - 0.45) / 0.6)
+            wm = word_img("Upscroll", F_BOLD, 196, WHITE)
+            shine_sweep(fr, wm, W / 2 - wm.width / 2, 470 - wm.height / 2, (t - VO["upscroll"] - 0.6) / 0.7, width=220)
+            sparkle_burst(fr, t, VO["upscroll"] + 0.1, W / 2, 470, n=18, color=(255, 236, 170), radius=520, dur=1.1)
             mascot(fr, "idea", W / 2, 1450, 480, t, a + 1.6, move="bob")
+            sparkle_burst(fr, t, a + 1.75, W / 2, 1200, n=8, color=GOLD, radius=200, dur=0.8, seed=11)
+            fr = drop_flash(fr, t, VO["upscroll"], W / 2, 470)
         elif scene in ("short", "card", "swipe"):
             st = S["short"][0]
             aura(fr, t, W / 2, PH_CY)
@@ -1123,8 +1236,9 @@ def render(out_video, scale=1.0, only=None):
                     scr.alpha_composite(nxt, (0, int((1 - sp) * SCR_H)))
             enter = ease_out((t - st) / 0.6) if scene == "short" else 1.0  # 3D tilt-in
             draw_phone(fr, scr, W / 2, PH_CY + (1 - enter) * 380, ang=(1 - enter) * 38, scale=0.9 + 0.1 * enter)
+            sparkle_burst(fr, t, t_swap, scr_x0 + SCR_W / 2 + 90, scr_y0 + SUB_Y + 27, n=14, radius=200, dur=0.9, seed=5)
             if scene == "short":
-                headline(fr, t, a + 0.15, "Watch your Shorts.", "Learn the words.", y=210, size2=88)
+                headline(fr, t, a + 0.15, "Watch your Shorts.", "Learn the words.", y=210, size2=88, grad=True)
             elif scene == "card":
                 headline(fr, t, a + 0.1, "A quick card", "makes it stick.", y=210, size2=88)
                 check = (scr_x0 + (SCR_W - CARD_W) / 2 + CARD_W - 70, scr_y0 + card_y + 366 + 96 + 39)
@@ -1132,13 +1246,14 @@ def render(out_video, scale=1.0, only=None):
                 if t >= tap_t:  # the cat cheers the right answer
                     mascot(fr, "cheer", 900, 620, 290, t, tap_t + 0.05, move="cheer", ground=False)
             else:
-                headline(fr, t, a + 0.1, "Then just", "keep scrolling.", y=210, size2=88)
+                headline(fr, t, a + 0.1, "Then just", "keep scrolling.", y=210, size2=88, grad=True)
                 if t > a + 0.2:
                     plus = Image.new("RGBA", (300, 92), (0, 0, 0, 0))
                     ImageDraw.Draw(plus).text((48, 18), "+1 word", font=font(F_BOLD, 46), fill=(30, 25, 10))
                     fly = ease_out((t - a - 0.2) / 1.2)
                     glass_layer(fr, plus, W / 2, 1600 - fly * 260, 46, t, a + 0.2, tint=(255, 209, 90, 170),
                                 alpha=clamp(1.6 - fly * 1.2))
+                    sparkle_burst(fr, t, a + 0.3, W / 2, 1560, n=10, radius=230, dur=0.9, seed=9)
                 fr = zoom_through(fr, ease_in_out((t - (b - 0.4)) / 0.4), W / 2, PH_CY)  # push into the screen
         elif scene == "journey":
             aura(fr, t, W / 2, 1150, strength=0.7)
@@ -1158,7 +1273,7 @@ def render(out_video, scale=1.0, only=None):
                 my = pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f
                 mascot(fr, "map", W / 2 + mx, 1150 + my, 280, t, a + 0.6, move="walk", flip=pts[k + 1][0] < pts[k][0])
                 # (with clips, the mascot_map clip walks in place while this moves it along the path)
-            headline(fr, t, a + 0.2, "Every Short is", "a step through Japan.", y=210, size2=82)
+            headline(fr, t, a + 0.2, "Every Short is", "a step through Japan.", y=210, size2=82, grad=True)
         elif scene == "end":
             aura(fr, t, W / 2, 1380, strength=0.8)
             f = font(F_BOLD, 180)
@@ -1167,6 +1282,9 @@ def render(out_video, scale=1.0, only=None):
                 cw = f.getlength(ch)
                 paste_fx(fr, word_img(ch, F_BOLD, 180, INK), x + cw / 2, 460, t, a + 0.1 + k * 0.04, dur=0.45, scale_from=0.3, blur=14)
                 x += cw
+            wm = word_img("Upscroll", F_BOLD, 180, INK)
+            shine_sweep(fr, wm, W / 2 - wm.width / 2, 460 - wm.height / 2, (lt - 0.75) / 0.7, width=200)
+            sparkle_burst(fr, t, a + 0.5, W / 2, 460, n=12, color=(170, 160, 255), radius=420, dur=1.0, seed=21)
             kinetic(fr, t, a + 0.5, "Learn Japanese while you scroll", F_SEMI, 50, INDIGO_D, 620, stagger=0.06)
             if lt >= 0.9:  # Apple badge: unmodified, no motion
                 fr.alpha_composite(badge, (int(W / 2 - badge.width / 2), 760))
@@ -1174,6 +1292,8 @@ def render(out_video, scale=1.0, only=None):
             mascot(fr, "wave", W / 2, 1380, 500, t, a + 0.3, move="wave")
             orbit_chips(fr, t, a + 0.7, W / 2, 1380, front=True)
 
+        if scene in ("reveal", "journey", "end"):
+            fr = beat_pulse(fr, t, VO["upscroll"])
         if lt < 0.28 and not continuous and i > 0:  # whip-pan into the cut
             fr = whip(fr, lt, 1 if scene_index[scene] % 2 else -1)
         if ff is None:

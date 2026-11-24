@@ -32,6 +32,18 @@ python3 mock2/prepare_clips.py mock2/raw mock2/clips      # frames + green-scree
 python3 build_mock1.py --clips mock2/clips --scale 0.5 --out mock2/upscroll_mock2.mp4
 ```
 
+## Final
+`final/upscroll_final.mp4` (1080x1920, 30 fps). The same ten clips as Mock 2, regenerated
+at 1080p with the same prompts and seeds (`final/raw/`), plus the final polish pass:
+bloom flash and camera shake on the music drop, sparkle bursts, light sweeps on the wordmark
+and the "Japanese lessons" pill, a beat-synced zoom punch after the drop, RGB-split whip
+pans, gradient key lines and a gold glow on the swapped word.
+
+```bash
+python3 mock2/prepare_clips.py final/raw final/clips
+python3 build_mock1.py --clips final/clips --out final/upscroll_final.mp4
+```
+
 ## Build
 ```bash
 python3 build_mock1.py            # writes mock1/upscroll_mock1.mp4 (1080x1920, 30 fps)

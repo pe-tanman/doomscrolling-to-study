@@ -17,3 +17,9 @@ mock2/clips/
 mock2/frames/
 mock2/build.log
 mock1/frames/
+final/clips/
+final/frames/
+final/build.log
+final/*.silent.mp4
+final/*.m4a
+final/raw/

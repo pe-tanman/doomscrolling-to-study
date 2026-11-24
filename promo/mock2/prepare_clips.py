@@ -32,7 +32,9 @@ for mp4 in sorted(raw.glob("*.mp4")):
     d.mkdir(parents=True, exist_ok=True)
     keyed = name.startswith("mascot_")
     ext = "png" if keyed else "jpg"
-    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(mp4), "-vf", f"fps={FPS}",
+    # scale to the largest size the clip is ever shown at (mascots <= 768, phone screen / map ~720 wide)
+    scale = "scale=768:768" if keyed else "scale=720:-2"
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(mp4), "-vf", f"fps={FPS},{scale}:flags=lanczos",
                     "-q:v", "2", str(d / f"frame_%05d.{ext}")], check=True)
     if keyed:
         for f in sorted(d.glob("frame_*.png")):
