@@ -1,7 +1,11 @@
-vo1	cgSgspJ2msm6clMCkdW9	You can't do five minutes of Duolingo...
-vo2	cgSgspJ2msm6clMCkdW9	but you'll doomscroll for hours.
-vo3	cgSgspJ2msm6clMCkdW9	Meet Upscroll.
-vo4	cgSgspJ2msm6clMCkdW9	It swaps real Japanese into the videos you already watch.
-vo5	cgSgspJ2msm6clMCkdW9	Hear it. Say it. Keep it.
-vo6	cgSgspJ2msm6clMCkdW9	Every scroll becomes a step through Japan.
-vo8	cgSgspJ2msm6clMCkdW9	Upscroll. Now on the App Store.
+hook1	Jessica	You can't do five minutes of Duolingo...
+hook2	Jessica	but you'll doomscroll for hours.
+reveal	Jessica	Meet Upscroll.
+how1	Jessica	It turns the Shorts you already watch into Japanese lessons.
+short_en	Sarah	Ugh... I'm so tired.
+how2	Jessica	Real Japanese words pop into the subtitles...
+word_jp	Sarah	つかれた。
+how3	Jessica	then a quick card helps them stick.
+swipe	Jessica	Then just keep scrolling.
+journey	Jessica	Every scroll becomes a step through Japan.
+endline	Jessica	Upscroll. Now on the App Store.
