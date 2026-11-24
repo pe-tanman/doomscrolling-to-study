@@ -214,8 +214,8 @@ class Plate:
 def headline(frame, t, t0, l1, l2, y=200, dark=False, size1=60, size2=96):
     c1 = (235, 235, 255) if dark else INK2
     c2 = WHITE if dark else INDIGO_D
-    paste_fx(frame, text_img(l1, F_RND8, size1, c1), W / 2, y, t, t0)
-    paste_fx(frame, text_img(l2, F_RND9, size2, c2), W / 2, y + size1 * 0.6 + size2 * 0.62, t, t0 + 0.15)
+    t1 = kinetic(frame, t, t0, l1, F_RND8, size1, c1, y)
+    kinetic(frame, t, t1 + 0.05, l2, F_RND9, size2, c2, y + size1 * 0.6 + size2 * 0.62)
 
 
 # ---------- the phone and the Shorts feed ----------
@@ -334,14 +334,17 @@ def phone_shell():
     return im, pad
 
 
-def draw_phone(frame, scr, cx, cy):
+def draw_phone(frame, scr, cx, cy, ang=0.0, scale=1.0, alpha=1.0):
     shell, pad = phone_shell()
     ph = shell.copy()
     ph.paste(scr, (pad + BEZEL, pad + BEZEL), rounded_mask(scr.size, R_SCR))
     d = ImageDraw.Draw(ph)
     iw = 190
     d.rounded_rectangle((pad + BEZEL + SCR_W / 2 - iw / 2, pad + BEZEL + 22, pad + BEZEL + SCR_W / 2 + iw / 2, pad + BEZEL + 78), 28, fill=(8, 8, 12))
-    frame.alpha_composite(ph, (int(cx - ph.width / 2), int(cy - ph.height / 2)))
+    if scale != 1:
+        ph = ph.resize((int(ph.width * scale), int(ph.height * scale)), Image.BILINEAR)
+    ph = tilt(ph, ang)
+    frame.alpha_composite(with_alpha(ph, alpha), (int(cx - ph.width / 2), int(cy - ph.height / 2)))
 
 
 # ---------- Upscroll's learning layer (as in SubtitleOverlay.swift / LearningCard.swift) ----------
@@ -454,6 +457,281 @@ def tap_ripple(scr, x, y, t, t0):
     scr.alpha_composite(ov)
 
 
+# ---------- motion effects borrowed from the reference reels ----------
+@lru_cache(None)
+def word_img(txt, path, size, fill):
+    """One word on a fixed-height box (ascent+descent), so words in a line share a baseline."""
+    f = font(path, size)
+    asc, desc = f.getmetrics()
+    w = int(f.getlength(txt)) + 2
+    pad = 24
+    im = Image.new("RGBA", (w + pad * 2, asc + desc + pad * 2), (0, 0, 0, 0))
+    ImageDraw.Draw(im).text((pad, pad), txt, font=f, fill=fill)
+    return im
+
+
+def kinetic(frame, t, t0, text, path, size, color, cy, stagger=0.07):
+    """Words build in one by one with a blur-in and a small rise (Holo / Relocate)."""
+    f = font(path, size)
+    words = text.split(" ")
+    sp = f.getlength(" ")
+    widths = [f.getlength(w) for w in words]
+    x = W / 2 - (sum(widths) + sp * (len(words) - 1)) / 2
+    for k, (w, ww) in enumerate(zip(words, widths)):
+        paste_fx(frame, word_img(w, path, size, color), x + ww / 2, cy, t, t0 + k * stagger, dur=0.38, rise=30, blur=14)
+        x += ww + sp
+    return t0 + len(words) * stagger
+
+
+def find_coeffs(dst, src):
+    import numpy as np
+    A, B = [], []
+    for (x, y), (X, Y) in zip(dst, src):
+        A += [[x, y, 1, 0, 0, 0, -X * x, -X * y], [0, 0, 0, x, y, 1, -Y * x, -Y * y]]
+        B += [X, Y]
+    return np.linalg.solve(np.array(A, float), np.array(B, float)).tolist()
+
+
+def tilt(img, ang, persp=0.0011):
+    """Rotate an image about its horizontal axis (top edge leans back for ang > 0)."""
+    if abs(ang) < 0.3:
+        return img
+    w, h = img.size
+    a = math.radians(ang)
+    pts = []
+    for x, y in [(0, 0), (w, 0), (w, h), (0, h)]:
+        xc, yc = x - w / 2, y - h / 2
+        f = 1 / (1 + (-yc * math.sin(a)) * persp)
+        pts.append((xc * f, yc * math.cos(a) * f))
+    minx, miny = min(p[0] for p in pts), min(p[1] for p in pts)
+    maxx, maxy = max(p[0] for p in pts), max(p[1] for p in pts)
+    dst = [(px - minx, py - miny) for px, py in pts]
+    size = (int(maxx - minx) + 1, int(maxy - miny) + 1)
+    return img.transform(size, Image.PERSPECTIVE, find_coeffs(dst, [(0, 0), (w, 0), (w, h), (0, h)]), Image.BICUBIC)
+
+
+@lru_cache(None)
+def aura_blob(color, r):
+    im = Image.new("RGBA", (r * 4, r * 4), (0, 0, 0, 0))
+    ImageDraw.Draw(im).ellipse((r, r, r * 3, r * 3), fill=(*color, 150))
+    return im.resize((r, r), Image.BILINEAR).filter(ImageFilter.GaussianBlur(r / 10)).resize((r * 4, r * 4), Image.BILINEAR)
+
+
+def aura(frame, t, cx, cy):
+    """Soft gradient blobs drifting behind the phone (the blurred blobs in the references)."""
+    for k, (col, r, fx, fy, ph) in enumerate([((165, 164, 255), 260, 0.31, 0.23, 0.0), ((250, 177, 201), 230, 0.27, 0.35, 2.1),
+                                             ((246, 191, 81), 190, 0.38, 0.29, 4.0)]):
+        b = aura_blob(col, r)
+        x = cx + math.sin(t * fx * 2 * math.pi + ph) * 260
+        y = cy + math.cos(t * fy * 2 * math.pi + ph) * 380
+        frame.alpha_composite(b, (int(x - b.width / 2), int(y - b.height / 2)))
+
+
+@lru_cache(None)
+def float_card(name, z):
+    """A Short as a floating card; far cards are smaller and blurred."""
+    w, h = int(200 * z), int(356 * z)
+    im = cover(Image.open(IMG / SHORTS[name][0]).convert("RGB"), (w, h)).convert("RGBA")
+    card, pad = shadow_box((w + 10, h + 10), int(26 * z), fill=(255, 255, 255, 255), shadow=(41, 40, 80, 70), blur=18, offset=10)
+    card.paste(im, (pad + 5, pad + 5), rounded_mask((w, h), int(22 * z)))
+    if z < 0.85:
+        card = with_alpha(card.filter(ImageFilter.GaussianBlur((0.85 - z) * 14)), 0.55 + 0.45 * z)
+    return card
+
+
+FLOATERS = [  # (short, x, y0, depth, speed, phase)
+    ("skate", 120, 520, 0.6, 1.0, 0.0), ("bowl", 960, 760, 0.65, 1.2, 1.0), ("train", 70, 1320, 0.7, 0.9, 2.0),
+    ("dog", 1000, 1500, 0.62, 1.1, 3.0), ("bowl", 140, 980, 1.08, 1.6, 0.5), ("skate", 940, 1180, 1.12, 1.7, 1.5),
+    ("train", 980, 420, 1.0, 1.5, 2.5),
+]
+
+
+def floaters(frame, t, lt, front):
+    for name, x, y0, z, sp, ph in FLOATERS:
+        if (z >= 1.0) != front:
+            continue
+        card = float_card(name, z)
+        y = (y0 - lt * sp * 260 * (1 + lt * 0.6)) % (H + 600) - 300  # drifting up, speeding up
+        ang = math.sin(t * 1.3 + ph) * 6
+        img = card.rotate(ang, resample=Image.BICUBIC, expand=True)
+        a = clamp(lt / 0.4) * clamp((y - 420) / 220)  # fade out before reaching the headline
+        if a <= 0:
+            continue
+        frame.alpha_composite(with_alpha(img, a), (int(x - img.width / 2), int(y - img.height / 2)))
+
+
+def rolling_digits(chip, x, y, value, period, f, color):
+    """Odometer digit: value is a float; the digit rolls up as it moves to the next."""
+    v = value % period
+    d0 = int(v)
+    frac = v - d0
+    h = f.getmetrics()[0] + f.getmetrics()[1]
+    box = Image.new("RGBA", (int(f.getlength("0")) + 4, h), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(box)
+    bd.text((0, -frac * h), str(d0 % period % 10), font=f, fill=color)
+    bd.text((0, (1 - frac) * h), str((d0 + 1) % period % 10), font=f, fill=color)
+    chip.alpha_composite(box, (int(x), int(y)))
+    return box.width
+
+
+def screen_time_chip(minutes):
+    chip, pad = shadow_box((440, 96), 48)
+    cd = ImageDraw.Draw(chip)
+    cd.text((pad + 34, pad + 22), "Screen time", font=font(F_RND8, 34), fill=INK2)
+    f = font(F_RND9, 40)
+    ones = minutes % 10
+    carry = max(0.0, ones - 9)  # tens roll only during the last tenth of the ones roll
+    tens = (minutes // 10) % 6 + carry
+    hours = minutes // 60 + (carry if (minutes // 10) % 6 == 5 else 0)
+    x, y = pad + 258, pad + 18
+    x += rolling_digits(chip, x, y, hours, 10, f, SAKURA)
+    cd.text((x, y), "h", font=f, fill=SAKURA)
+    x += f.getlength("h ")
+    x += rolling_digits(chip, x, y, tens, 6, f, SAKURA)
+    x += rolling_digits(chip, x, y, ones, 10, f, SAKURA)
+    cd.text((x, y), "m", font=f, fill=SAKURA)
+    return chip
+
+
+def word_times(name, start):
+    a = json.loads((AUD / f"{name}.align.json").read_text())
+    out, cur, ws = [], "", None
+    for ch, st in zip(a["chars"], a["start"]):
+        if ch == " ":
+            if cur:
+                out.append((cur, ws + start))
+            cur, ws = "", None
+        else:
+            ws = st if ws is None else ws
+            cur += ch
+    if cur:
+        out.append((cur, ws + start))
+    return out
+
+
+def wheel(frame, t, t0, t_land, items, cy):
+    """A vertical word wheel that spins and lands on the last item (Holo's list carousel)."""
+    p = (len(items) - 1) * ease_out((t - t0) / max(0.1, t_land - t0)) if t >= t0 else 0
+    a_in = ease_out((t - t0 + 0.3) / 0.3)
+    for k, it in enumerate(items):
+        dist = k - p
+        if abs(dist) > 1.6:
+            continue
+        s = 1 - 0.3 * min(1, abs(dist))
+        lay = word_img(it, F_RND9, int(70 * s), WHITE if abs(dist) < 0.5 else (200, 200, 235))
+        r = int(abs(dist) * 7)
+        if r:
+            lay = lay.filter(ImageFilter.GaussianBlur(r))
+        lay = with_alpha(lay, a_in * clamp(1 - abs(dist) * 0.6))
+        frame.alpha_composite(lay, (int(W / 2 - lay.width / 2), int(cy + dist * 92 - lay.height / 2)))
+
+
+@lru_cache(None)
+def petal_img(c, s):
+    im = Image.new("RGBA", (s * 4, s * 3), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((0, 0, s * 4 - 1, s * 3 - 1), fill=c)
+    d.ellipse((s, s * 0.8, s * 2.6, s * 2), fill=(255, 235, 242))
+    return im.resize((s * 2, int(s * 1.4)), Image.LANCZOS)
+
+
+def petal_burst(frame, t, t0, ox, oy, n=18, seed=7):
+    """Sakura confetti on a right answer (the app's confetti colour)."""
+    import random
+    if not (t0 <= t <= t0 + 1.3):
+        return
+    rnd = random.Random(seed)
+    dt = t - t0
+    for _ in range(n):
+        ang = rnd.uniform(-math.pi, 0)
+        v = rnd.uniform(380, 820)
+        col = rnd.choice([(250, 177, 201), (239, 140, 175), (253, 230, 237), (255, 209, 90)])
+        s = rnd.randint(9, 15)
+        spin = rnd.uniform(-400, 400)
+        x = ox + math.cos(ang) * v * dt
+        y = oy + math.sin(ang) * v * dt + 900 * dt * dt
+        im = petal_img(col, s).rotate(spin * dt, expand=True)
+        frame.alpha_composite(with_alpha(im, clamp(1.3 - dt) / 1.0 if dt > 0.3 else 1), (int(x), int(y)))
+
+
+@lru_cache(None)
+def word_chip(kana, meaning):
+    fk, fm = font(F_JP, 52), font(F_RND8, 38)
+    w = int(fk.getlength(kana) + fm.getlength(meaning)) + 80
+    chip, pad = shadow_box((w, 94), 47, fill=(41, 40, 80, 235), shadow=(41, 40, 80, 70))
+    d = ImageDraw.Draw(chip)
+    d.text((pad + 28, pad + 10), kana, font=fk, fill=GOLD)
+    d.text((pad + 28 + fk.getlength(kana) + 22, pad + 20), meaning, font=fm, fill=WHITE)
+    return chip
+
+
+ORBIT = [("つかれた", "tired"), ("おいしい", "tasty"), ("かわいい", "cute"), ("ありがとう", "thanks"), ("すごい", "amazing")]
+
+
+def orbit_chips(frame, t, t0, cx, cy, front):
+    """Japanese word chips orbiting the mascot with depth (the icons orbiting Audixa's search bar)."""
+    if t < t0:
+        return
+    lt = t - t0
+    for k, (kana, mean) in enumerate(ORBIT):
+        th = 2 * math.pi * k / len(ORBIT) + lt * 0.75
+        depth = math.sin(th)
+        if (depth > 0) != front:
+            continue
+        chip = word_chip(kana, mean)
+        s = (0.72 + 0.28 * (depth + 1) / 2) * ease_back((lt - k * 0.08) / 0.4, 2)
+        if s <= 0.05:
+            continue
+        img = chip.resize((int(chip.width * s), int(chip.height * s)), Image.BILINEAR)
+        if depth < -0.2:
+            img = with_alpha(img.filter(ImageFilter.GaussianBlur((-depth) * 4)), 0.75)
+        x = cx + math.cos(th) * 300
+        y = cy + depth * 190
+        frame.alpha_composite(img, (int(x - img.width / 2), int(y - img.height / 2)))
+
+
+def pin(frame, n, x, y, t, t0):
+    if t < t0:
+        return
+    s = ease_back((t - t0) / 0.35, 2.4)
+    r = int(36 * s)
+    if r < 3:
+        return
+    im = Image.new("RGBA", (r * 2 + 30, r * 2 + 30), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.ellipse((15, 20, 15 + r * 2, 20 + r * 2), fill=(41, 40, 80, 60))
+    d.ellipse((15, 15, 15 + r * 2, 15 + r * 2), fill=WHITE)
+    lay = word_img(str(n), F_RND9, max(8, int(40 * s)), INDIGO)
+    im.alpha_composite(lay, (int(15 + r - lay.width / 2), int(15 + r - lay.height / 2)))
+    frame.alpha_composite(im, (int(x - im.width / 2), int(y - im.height / 2)))
+
+
+def whip(fr, lt, direction, dur=0.28):
+    """Whip-pan into a cut: the new frame slides in with horizontal motion blur."""
+    p = ease_out(lt / dur)
+    if p >= 0.98:
+        return fr
+    from PIL import ImageChops
+    k = 1 - p
+    blurred = fr.resize((max(16, int(W / (1 + 30 * k))), H), Image.BILINEAR).resize((W, H), Image.BILINEAR)
+    return ImageChops.offset(blurred, int(direction * k * 380), 0)
+
+
+def zoom_through(fr, p, cx, cy):
+    """Push into a point (the phone screen) to carry into the next scene."""
+    if p <= 0:
+        return fr
+    z = 1 + 2.4 * p * p
+    cw, ch = W / z, H / z
+    cx = min(max(cx, cw / 2), W - cw / 2)  # keep the crop inside the frame
+    cy = min(max(cy, ch / 2), H - ch / 2)
+    out = fr.resize((W, H), Image.BILINEAR, box=(cx - cw / 2, cy - ch / 2, cx + cw / 2, cy + ch / 2))
+    r = p * 10
+    if r >= 1:
+        out = out.resize((W // 3, H // 3), Image.BILINEAR).filter(ImageFilter.GaussianBlur(r / 3)).resize((W, H), Image.BILINEAR)
+    return out
+
+
 # ---------- timeline ----------
 def build_timeline():
     S, t = {}, 0.0
@@ -470,7 +748,24 @@ def build_timeline():
     return S, vo, t
 
 
-def render(out_video, scale=1.0):
+NOTES = [("Daily lesson", "Just 5 minutes today?"), ("Your streak", "Don't break your 12-day streak!"),
+         ("Still there?", "It only takes 5 minutes.")]
+
+
+@lru_cache(None)
+def notification(title, body):
+    note, npad = shadow_box((880, 150), 40, fill=(255, 255, 255, 238))
+    nd = ImageDraw.Draw(note)
+    nd.rounded_rectangle((npad + 28, npad + 28, npad + 122, npad + 122), 24, fill=(165, 164, 255))
+    note.alpha_composite(icon("bell", 58), (npad + 46, npad + 46))
+    nd.text((npad + 150, npad + 26), title, font=font(F_RND9, 36), fill=INK)
+    nd.text((npad + 150, npad + 78), body, font=font(F_RND8, 32), fill=INK2)
+    nd.text((npad + 780, npad + 30), "now", font=font(F_RND8, 26), fill=(150, 150, 170))
+    return note
+
+
+def render(out_video, scale=1.0, only=None):
+    """only: list of times to save as PNG stills next to out_video (quick checks); no video then."""
     S, VO, total = build_timeline()
     sky = Plate(IMG / "bg_sky.jpg", 1.0, 1.04)
     dark = Plate(IMG / "p3.jpg", 1.0, 1.06)
@@ -483,40 +778,44 @@ def render(out_video, scale=1.0):
     journey = journey.crop((0, journey.height - map_h, map_w, journey.height))
     jcard, jpad = shadow_box((map_w, map_h), 56, fill=(255, 255, 255, 255))
     jcard.paste(journey, (jpad, jpad), rounded_mask(journey.size, 56))
-    note, npad = shadow_box((880, 170), 44, fill=(255, 255, 255, 235))
-    nd = ImageDraw.Draw(note)
-    nd.rounded_rectangle((npad + 30, npad + 35, npad + 130, npad + 135), 26, fill=(165, 164, 255))
-    note.alpha_composite(icon("bell", 60), (npad + 50, npad + 55))
-    nd.text((npad + 160, npad + 36), "Daily lesson", font=font(F_RND9, 38), fill=INK)
-    nd.text((npad + 160, npad + 90), "Just 5 minutes today?", font=font(F_RND8, 34), fill=INK2)
-    nd.text((npad + 770, npad + 40), "now", font=font(F_RND8, 26), fill=(150, 150, 170))
+    how1 = word_times("how1", VO["how1"])
+    t_shorts = next(st for w, st in how1 if w.lower().startswith("shorts"))
+    t_japanese = next(st for w, st in how1 if w.lower().startswith("japanese"))
+    scene_index = {k: i for i, k in enumerate(S)}
 
     ow, oh = int(W * scale) // 2 * 2, int(H * scale) // 2 * 2
-    ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
+    ff = None if only else subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
                            "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-vf", f"scale={ow}:{oh}",
                            "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-pix_fmt", "yuv420p", str(out_video)],
                           stdin=subprocess.PIPE)
+    wanted = {round(x * FPS) for x in only} if only else None
     PH_CY = 1190  # phone centre in the phone scenes
+    scr_x0, scr_y0 = W / 2 - SCR_W / 2, PH_CY - SCR_H / 2  # screen origin in frame coords
     for i in range(round(total * FPS)):
+        if wanted is not None and i not in wanted:
+            continue
         t = i / FPS
         scene = next(k for k, (a, b) in S.items() if a <= t < b)
         a, b = S[scene]
         lt = t - a
         fr = (dark if scene == "reveal" else sky).get(t / total)
-        continuous = scene in ("card", "swipe")  # these continue the same phone shot
+        continuous = scene in ("card", "swipe", "journey")  # no whip: same phone shot, or zoomed into
 
         if scene == "hook":
             headline(fr, t, a + 0.15, "You can't do", "5 minutes of Duolingo…", y=250, size2=84)
-            swipe_p = ease_in_out((lt - 1.75) / 0.4)
-            paste_fx(fr, note, W / 2 + swipe_p * 1100, 640, t, a + 0.45, rise=-60)
-            mascot(fr, "sleepy", W / 2, 1320, 540, t, a + 0.6, move="breathe")
+            for k, (ti, bo) in enumerate(NOTES):  # reminders stack up, then get swiped away together
+                t_k = a + 0.45 + k * 0.32
+                swipe_p = ease_in_out((lt - 1.85 - k * 0.05) / 0.35)
+                paste_fx(fr, notification(ti, bo), W / 2 + swipe_p * 1150, 560 + k * 176, t, t_k, dur=0.35, scale_from=0.6)
+            mascot(fr, "sleepy", W / 2, 1400, 500, t, a + 0.6, move="breathe")
             for k in range(3):  # floating z's
                 if lt > 1.0 + k * 0.45:
                     zt = (lt - 1.0 - k * 0.45) % 1.6
                     lay = with_alpha(text_img("z", F_RND9, 46 + k * 10, INDIGO), clamp(1 - zt / 1.6))
-                    fr.alpha_composite(lay, (int(W / 2 + 150 + zt * 60), int(1110 - zt * 160)))
+                    fr.alpha_composite(lay, (int(W / 2 + 140 + zt * 60), int(1200 - zt * 160)))
         elif scene == "doom":
-            headline(fr, t, a + 0.1, "…but you doomscroll", "for hours.", y=210, size2=104)
+            aura(fr, t, W / 2, PH_CY)
+            floaters(fr, t, lt, front=False)
             order = ["dog", "skate", "bowl", "train"]
             pos = (lt * 0.9 + 1.6 * lt ** 2) * SCR_H * 0.55  # the feed speeds up
             scr = Image.new("RGBA", (SCR_W, SCR_H), (0, 0, 0, 255))
@@ -526,37 +825,36 @@ def render(out_video, scale=1.0):
             speed = 0.9 + 3.2 * lt
             if speed > 1.5:  # vertical motion blur
                 scr = scr.resize((SCR_W, max(8, int(SCR_H / min(12, speed)))), Image.BILINEAR).resize((SCR_W, SCR_H), Image.BILINEAR)
-            draw_phone(fr, scr, W / 2, PH_CY)
-            mins = int(12 + (192 - 12) * ease_out((lt - 0.2) / 2.2))
-            chip, pad = shadow_box((420, 96), 48)
-            cd = ImageDraw.Draw(chip)
-            cd.text((pad + 34, pad + 20), "Screen time", font=font(F_RND8, 34), fill=INK2)
-            cd.text((pad + 250, pad + 18), f"{mins // 60}h {mins % 60:02d}m", font=font(F_RND9, 40), fill=SAKURA)
-            paste_fx(fr, chip, W / 2, 1810, t, a + 0.2, scale_from=0.7)
+            enter = ease_out(lt / 0.5)
+            draw_phone(fr, scr, W / 2, PH_CY + (1 - enter) * 500, ang=(1 - enter) * 30)
+            floaters(fr, t, lt, front=True)
+            headline(fr, t, a + 0.1, "…but you doomscroll", "for hours.", y=210, size2=104)
+            mins = 12 + (192 - 12) * ease_in_out((lt - 0.2) / 2.3)
+            paste_fx(fr, screen_time_chip(mins), W / 2, 1810, t, a + 0.2, scale_from=0.7)
         elif scene == "reveal":
-            paste_fx(fr, text_img("Meet", F_RND8, 64, (220, 220, 255)), W / 2, 330, t, a + 0.15)
-            paste_fx(fr, text_img("Upscroll", F_RND9, 190, WHITE), W / 2, 480, t, a + 0.3, dur=0.5, scale_from=0.8)
-            t1 = a + 1.4  # Your Shorts -> Japanese lessons
-            p1, pad1 = shadow_box((380, 104), 52, fill=(255, 255, 255, 40), shadow=(0, 0, 0, 0))
-            d1 = ImageDraw.Draw(p1)
-            d1.text((pad1 + 190 - d1.textlength("Your Shorts", font=font(F_RND9, 46)) / 2, pad1 + 18), "Your Shorts", font=font(F_RND9, 46), fill=WHITE)
-            p2, pad2 = shadow_box((480, 104), 52, fill=(*GOLD, 255), shadow=(0, 0, 0, 0))
-            d2 = ImageDraw.Draw(p2)
-            d2.text((pad2 + 240 - d2.textlength("Japanese lessons", font=font(F_RND9, 46)) / 2, pad2 + 18), "Japanese lessons", font=font(F_RND9, 46), fill=(0, 0, 0))
-            paste_fx(fr, p1, W / 2, 720, t, t1)
+            # wordmark springs in letter by letter
+            paste_fx(fr, text_img("Meet", F_RND8, 64, (220, 220, 255)), W / 2, 300, t, a + 0.15)
+            f = font(F_RND9, 190)
+            word = "Upscroll"
+            x = W / 2 - f.getlength(word) / 2
+            for k, ch in enumerate(word):
+                cw = f.getlength(ch)
+                paste_fx(fr, word_img(ch, F_RND9, 190, WHITE), x + cw / 2, 470, t, a + 0.3 + k * 0.045, dur=0.45, scale_from=0.3, blur=16)
+                x += cw
+            # "turns your [cat videos / cooking clips / travel vlogs / memes / Shorts] -> Japanese lessons"
+            paste_fx(fr, word_img("turns your", F_RND8, 52, (220, 220, 255)), W / 2, 660, t, a + 1.3)
+            wheel(fr, t, a + 1.35, t_shorts + 0.05, ["cat videos", "cooking clips", "travel vlogs", "memes", "Shorts"], 770)
             arrow = Image.new("RGBA", (90, 90), (0, 0, 0, 0))
             ImageDraw.Draw(arrow).line([(18, 30), (45, 60), (72, 30)], fill=GOLD, width=12, joint="curve")
-            paste_fx(fr, arrow, W / 2, 832, t, t1 + 0.5)
-            paste_fx(fr, p2, W / 2, 945, t, t1 + 0.9, scale_from=0.6)
-            mascot(fr, "idea", W / 2, 1430, 520, t, a + 0.9, move="bob")
+            paste_fx(fr, arrow, W / 2, 875, t, t_shorts + 0.15)
+            p2, pad2 = shadow_box((500, 108), 54, fill=(*GOLD, 255), shadow=(0, 0, 0, 0))
+            d2 = ImageDraw.Draw(p2)
+            d2.text((pad2 + 250 - d2.textlength("Japanese lessons", font=font(F_RND9, 50)) / 2, pad2 + 18), "Japanese lessons", font=font(F_RND9, 50), fill=(0, 0, 0))
+            paste_fx(fr, p2, W / 2, 985, t, t_japanese - 0.05, dur=0.45, scale_from=0.4)
+            mascot(fr, "idea", W / 2, 1440, 500, t, a + 0.9, move="bob")
         elif scene in ("short", "card", "swipe"):
             st = S["short"][0]
-            if scene == "short":
-                headline(fr, t, a + 0.1, "Watch your Shorts.", "Learn the words.", y=200, size2=90)
-            elif scene == "card":
-                headline(fr, t, a + 0.1, "A quick card", "makes it stick.", y=200, size2=90)
-            else:
-                headline(fr, t, a + 0.1, "Then just", "keep scrolling.", y=200, size2=90)
+            aura(fr, t, W / 2, PH_CY)
             card_t0 = S["card"][0] + 0.2
             tap_t, cont_t = S["card"][0] + 2.7, S["card"][0] + 3.7
             out_t = S["swipe"][0] + 0.05
@@ -579,36 +877,65 @@ def render(out_video, scale=1.0):
                     scr = Image.new("RGBA", (SCR_W, SCR_H), (0, 0, 0, 255))
                     scr.alpha_composite(base, (0, int(-sp * SCR_H)))
                     scr.alpha_composite(nxt, (0, int((1 - sp) * SCR_H)))
-            draw_phone(fr, scr, W / 2, PH_CY)
-            if scene == "card" and t >= tap_t:  # the cat cheers the right answer
-                mascot(fr, "cheer", 900, 610, 300, t, tap_t + 0.05, move="cheer", ground=False)
-            if scene == "swipe" and t > a + 0.2:
-                plus, pp = shadow_box((330, 92), 46, fill=(*GOLD, 255))
-                ImageDraw.Draw(plus).text((pp + 34, pp + 14), "+1 word", font=font(F_RND9, 46), fill=(0, 0, 0))
-                fly = ease_out((t - a - 0.2) / 1.2)
-                fr.alpha_composite(with_alpha(plus, clamp(1.6 - fly * 1.2)), (int(W / 2 - plus.width / 2), int(1560 - fly * 260)))
+            plt = t - st
+            enter = ease_out(plt / 0.6) if scene == "short" else 1.0  # 3D tilt-in
+            draw_phone(fr, scr, W / 2, PH_CY + (1 - enter) * 380, ang=(1 - enter) * 38, scale=0.9 + 0.1 * enter)
+            if scene == "short":
+                headline(fr, t, a + 0.15, "Watch your Shorts.", "Learn the words.", y=200, size2=90)
+            elif scene == "card":
+                headline(fr, t, a + 0.1, "A quick card", "makes it stick.", y=200, size2=90)
+                check = (scr_x0 + (SCR_W - CARD_W) / 2 + CARD_W - 70, scr_y0 + card_y + 368 + 96 + 39)
+                petal_burst(fr, t, tap_t + 0.05, *check)
+                if t >= tap_t:  # the cat cheers the right answer
+                    mascot(fr, "cheer", 900, 610, 300, t, tap_t + 0.05, move="cheer", ground=False)
+            else:
+                headline(fr, t, a + 0.1, "Then just", "keep scrolling.", y=200, size2=90)
+                if t > a + 0.2:
+                    plus, pp = shadow_box((330, 92), 46, fill=(*GOLD, 255))
+                    ImageDraw.Draw(plus).text((pp + 34, pp + 14), "+1 word", font=font(F_RND9, 46), fill=(0, 0, 0))
+                    fly = ease_out((t - a - 0.2) / 1.2)
+                    fr.alpha_composite(with_alpha(plus, clamp(1.6 - fly * 1.2)), (int(W / 2 - plus.width / 2), int(1560 - fly * 260)))
+                # push into the phone screen to carry into the map
+                fr = zoom_through(fr, ease_in_out((t - (b - 0.4)) / 0.4), W / 2, PH_CY)
         elif scene == "journey":
-            headline(fr, t, a + 0.1, "Every Short is", "a step through Japan.", y=200, size2=84)
-            paste_fx(fr, jcard, W / 2, 1150, t, a + 0.05, dur=0.45, scale_from=0.85)
             pts = [(-210, 470), (-120, 360), (20, 300), (120, 200), (60, 90)]  # along the path
-            u = ease_in_out((lt - 0.4) / 2.4) * (len(pts) - 1)
-            k = min(int(u), len(pts) - 2)
-            f = u - k
-            mx = pts[k][0] + (pts[k + 1][0] - pts[k][0]) * f
-            my = pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f
-            mascot(fr, "map", W / 2 + mx, 1150 + my, 280, t, a + 0.3, move="walk", flip=pts[k + 1][0] < pts[k][0])
+            u = ease_in_out((lt - 0.5) / 2.3) * (len(pts) - 1)
+            p = ease_out(lt / 0.7)  # the map swings up in 3D, settling from the zoom
+            card = tilt(jcard, (1 - p) * 42)
+            sc = 1.35 - 0.35 * p
+            card = card.resize((int(card.width * sc), int(card.height * sc)), Image.BILINEAR)
+            fr.alpha_composite(with_alpha(card, clamp(lt / 0.25)), (int(W / 2 - card.width / 2), int(1150 - card.height / 2 + (1 - p) * 120)))
+            if p > 0.95:
+                for k in range(1, len(pts)):  # stop pins pop as the cat reaches them
+                    pin(fr, k + 2, W / 2 + pts[k][0] + 50, 1150 + pts[k][1] - 70, t, a + 0.5 + (k - 0.2) * 2.3 / (len(pts) - 1))
+                k = min(int(u), len(pts) - 2)
+                f = u - k
+                mx = pts[k][0] + (pts[k + 1][0] - pts[k][0]) * f
+                my = pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f
+                mascot(fr, "map", W / 2 + mx, 1150 + my, 280, t, a + 0.6, move="walk", flip=pts[k + 1][0] < pts[k][0])
+            headline(fr, t, a + 0.2, "Every Short is", "a step through Japan.", y=200, size2=84)
         elif scene == "end":
-            paste_fx(fr, text_img("Upscroll", F_RND9, 170, INK), W / 2, 470, t, a + 0.1, dur=0.5, scale_from=0.8)
-            paste_fx(fr, text_img("Learn Japanese while you scroll", F_RND8, 50, INDIGO_D), W / 2, 625, t, a + 0.35)
-            if lt >= 0.8:  # Apple badge: unmodified, no motion
+            f = font(F_RND9, 170)
+            x = W / 2 - f.getlength("Upscroll") / 2
+            for k, ch in enumerate("Upscroll"):
+                cw = f.getlength(ch)
+                paste_fx(fr, word_img(ch, F_RND9, 170, INK), x + cw / 2, 470, t, a + 0.1 + k * 0.04, dur=0.45, scale_from=0.3, blur=14)
+                x += cw
+            kinetic(fr, t, a + 0.5, "Learn Japanese while you scroll", F_RND8, 50, INDIGO_D, 625, stagger=0.06)
+            if lt >= 0.9:  # Apple badge: unmodified, no motion
                 fr.alpha_composite(badge, (int(W / 2 - badge.width / 2), 760))
-            mascot(fr, "wave", W / 2, 1330, 560, t, a + 0.3, move="wave")
+            orbit_chips(fr, t, a + 0.7, W / 2, 1360, front=False)
+            mascot(fr, "wave", W / 2, 1360, 520, t, a + 0.3, move="wave")
+            orbit_chips(fr, t, a + 0.7, W / 2, 1360, front=True)
 
-        if lt < 0.2 and not continuous and i > 0:  # cut: quick blur-in
-            r = int((1 - lt / 0.2) * 14)
-            if r:
-                fr = fr.resize((W // 3, H // 3), Image.BILINEAR).filter(ImageFilter.GaussianBlur(r / 3)).resize((W, H), Image.BILINEAR)
+        if lt < 0.28 and not continuous and i > 0:  # whip-pan into the cut
+            fr = whip(fr, lt, 1 if scene_index[scene] % 2 else -1)
+        if ff is None:
+            fr.convert("RGB").save(Path(out_video).with_name(f"still_{t:05.2f}.jpg"), quality=88)
+            continue
         ff.stdin.write(fr.convert("RGB").tobytes())
+    if ff is None:
+        return S, VO, total
     ff.stdin.close()
     ff.wait()
     return S, VO, total
@@ -618,14 +945,17 @@ def mix_audio(S, VO, total, out):
     s = lambda k: S[k][0]
     cues = [(k, v, -6 if k == "short_en" else 0) for k, v in VO.items()]
     cues += [
-        ("sfx_pop", s("hook") + 0.45, -10), ("sfx_swipe", s("hook") + 1.75, -4),
+        ("sfx_pop", s("hook") + 0.45, -10), ("sfx_pop", s("hook") + 0.77, -11), ("sfx_pop", s("hook") + 1.09, -12),
+        ("sfx_swipe", s("hook") + 1.85, -4),
         ("sfx_swipe", s("doom") - 0.1, -6), ("sfx_scrollloop", s("doom"), -10),
         ("sfx_riser", s("reveal") - 1.9, -14), ("sfx_thud", s("reveal"), -4),
-        ("sfx_pop", s("reveal") + 1.4, -10), ("sfx_pop", s("reveal") + 2.3, -8),
+        ("sfx_typing", s("reveal") + 1.4, -12), ("sfx_pop", s("reveal") + 3.2, -8),
         ("sfx_swipe", s("short") - 0.1, -6), ("sfx_pop", s("short") + 1.85, -2),
-        ("sfx_click", s("card") + 0.2, -8), ("sfx_click", s("card") + 2.7, -6), ("sfx_chime", s("card") + 2.75, -6),
+        ("sfx_click", s("card") + 0.2, -8), ("sfx_click", s("card") + 2.7, -6), ("sfx_chime", s("card") + 2.75, -6), ("sfx_pop", s("card") + 2.8, -10),
         ("sfx_click", s("card") + 3.7, -6), ("sfx_swipe", s("swipe") + 0.35, -4), ("sfx_record", s("swipe") + 0.25, -10),
-        ("sfx_swipe", s("journey") - 0.1, -6), ("sfx_swipe", s("end") - 0.1, -6), ("sfx_chime", s("end") + 0.3, -8),
+        ("sfx_riser", s("journey") - 1.6, -16), ("sfx_thud", s("journey"), -12), ("sfx_pop", s("journey") + 1.1, -12),
+        ("sfx_pop", s("journey") + 1.7, -12), ("sfx_pop", s("journey") + 2.3, -12),
+        ("sfx_swipe", s("end") - 0.1, -6), ("sfx_chime", s("end") + 0.3, -8), ("sfx_pop", s("end") + 0.8, -12),
     ]
     inputs, chain, labels = [], [], []
     for i, (f, st, g) in enumerate(cues):
