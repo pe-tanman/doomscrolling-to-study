@@ -701,6 +701,7 @@ def short_frame(name, lt, chrome=True, dim=0.0, blur=0):
 
 # ---------- Upscroll's learning layer (as in SubtitleOverlay.swift / LearningCard.swift) ----------
 SUB_Y = 1000
+SPEAK_AT = 3.5  # the vlogger faces the camera and speaks from here (lip-synced clip)
 WORD, ROMAJI, MEANING = "おいしい", "oishii", "delicious"
 
 
@@ -1048,11 +1049,7 @@ def drop_flash(fr, t, t0, cx, cy):
         return fr
     p = (t - t0) / 0.5
     g = soft_glow((200, 196, 255), 255, 520)
-    composite(fr, with_alpha(g, (1 - p) ** 2), cx - g.width / 2, cy - g.height / 2)
-    if p < 0.6:
-        k = (1 - p / 0.6) ** 2
-        rnd = random.Random(int(t * 1000))
-        fr = ImageChops.offset(fr, int(rnd.uniform(-1, 1) * 18 * k), int(rnd.uniform(-1, 1) * 18 * k))
+    composite(fr, with_alpha(g, 0.7 * (1 - p) ** 2), cx - g.width / 2, cy - g.height / 2)
     return fr
 
 
@@ -1082,19 +1079,37 @@ def grad_word(txt, path, size, c1, c2, x0, x1, xw):
     return out
 
 
+def _soft(img, blur, zoom):
+    if zoom != 1:
+        cw, ch = W / zoom, H / zoom
+        img = img.resize((W, H), Image.BILINEAR, box=((W - cw) / 2, (H - ch) / 2, (W + cw) / 2, (H + ch) / 2))
+    if blur >= 1:
+        img = img.resize((W // 3, H // 3), Image.BILINEAR).filter(ImageFilter.GaussianBlur(blur / 3)).resize((W, H), Image.BICUBIC)
+    return img
+
+
+def dissolve(out_fr, in_fr, e):
+    """Smooth blur dissolve: the outgoing scene drifts forward and softens while the
+    incoming one settles back into focus."""
+    a = _soft(out_fr, 18 * e, 1 + 0.06 * e)
+    b = _soft(in_fr, 18 * (1 - e), 1.06 - 0.06 * e)
+    return Image.blend(a.convert("RGB"), b.convert("RGB"), e).convert("RGBA")
+
+
 # ---------- timeline ----------
 def build_timeline():
     S, t = {}, 0.0
-    for name, d in [("hook", 3.5), ("doom", 2.6), ("reveal", 5.9), ("short", 5.3), ("card", 4.5),
-                    ("swipe", 2.0), ("journey", 3.0), ("end", 4.4)]:
+    for name, d in [("hook", 3.5), ("doom", 2.6), ("reveal", 5.4), ("short", 6.0), ("card", 5.0),
+                    ("swipe", 2.0), ("journey", 3.0), ("end", 4.8)]:
         S[name] = (t, t + d)
         t += d
     s = lambda k: S[k][0]
     vo = {  # audio file -> absolute start
         "hook1": s("hook") + 0.3, "hook2": s("doom") + 0.1,
-        "meet": s("reveal") + 0.15, "upscroll": s("reveal") + 1.1, "how1": s("reveal") + 2.3,
-        "short_en": s("short") + 0.25, "how2": s("short") + 2.45, "word_jp": s("card") + 0.45, "how3": s("card") + 1.3,
-        "swipe": s("swipe") + 0.2, "journey": s("journey") + 0.15, "endline": s("end") + 0.45,
+        "meet": s("reveal") + 0.15, "upscroll": s("reveal") + 0.85, "how1": s("reveal") + 1.95,
+        "short_narr": s("short") + 0.5, "short_en": s("short") + SPEAK_AT,
+        "word_jp": s("card") + 0.35, "card_narr": s("card") + 1.1,
+        "swipe": s("swipe") + 0.2, "journey": s("journey") + 0.15, "endline": s("end") + 0.5,
     }
     return S, vo, t
 
@@ -1128,7 +1143,6 @@ def render(out_video, scale=1.0, only=None):
     t_shorts = next(st for w, st in how1 if w.lower().startswith("shorts"))
     t_japanese = next(st for w, st in how1 if w.lower().startswith("japanese"))
     t_swap = next(st for w, st in word_times("short_en", VO["short_en"]) if w.lower().startswith("good"))
-    scene_index = {k: i for i, k in enumerate(S)}
 
     ow, oh = int(W * scale) // 2 * 2, int(H * scale) // 2 * 2
     ff = None if only else subprocess.Popen(
@@ -1137,16 +1151,10 @@ def render(out_video, scale=1.0, only=None):
          str(out_video)], stdin=subprocess.PIPE)
     wanted = {round(x * FPS) for x in only} if only else None
     scr_x0, scr_y0 = W / 2 - SCR_W / 2, PH_CY - SCR_H / 2  # screen origin in frame coords
-    for i in range(round(total * FPS)):
-        if wanted is not None and i not in wanted:
-            continue
-        t = i / FPS
-        scene = next(k for k, (a, b) in S.items() if a <= t < b)
+    def draw_scene(scene, t):
         a, b = S[scene]
         lt = t - a
         fr = (DARK_BG if scene == "reveal" else LIGHT_BG).get(t / total).copy()
-        continuous = scene in ("doom", "card", "swipe", "journey")  # same phone shot, or zoomed into
-
         if scene in ("hook", "doom"):
             aura(fr, t, W / 2, PH_CY)
             if scene == "doom":
@@ -1213,13 +1221,13 @@ def render(out_video, scale=1.0, only=None):
             st = S["short"][0]
             aura(fr, t, W / 2, PH_CY)
             card_t0 = S["card"][0] + 0.2
-            tap_t, cont_t = S["card"][0] + 2.7, S["card"][0] + 3.7
+            tap_t, cont_t = S["card"][0] + 3.3, S["card"][0] + 4.3
             out_t = S["swipe"][0] + 0.05
             paused = card_t0 <= t < out_t + 0.3
             dim = ease_out((t - card_t0) / 0.3) if paused else 0
             vid_t = min(t, card_t0) - st  # the Short freezes while the card is up
             base = short_frame("vlog", vid_t, dim=dim * 0.8, blur=int(dim * 6))
-            subtitle_layer(base, t, st + 0.3, t_swap)
+            subtitle_layer(base, t, st + SPEAK_AT - 0.05, t_swap)
             if paused and t < card_t0 + 0.6:  # pause glyph flash
                 composite(base, with_alpha(icon("pause", 120), clamp(1 - (t - card_t0) / 0.6)), SCR_W // 2 - 60, 420)
             practice_card(base, t, card_t0, tap_t, cont_t, out_t)
@@ -1286,16 +1294,30 @@ def render(out_video, scale=1.0, only=None):
             shine_sweep(fr, wm, W / 2 - wm.width / 2, 460 - wm.height / 2, (lt - 0.75) / 0.7, width=200)
             sparkle_burst(fr, t, a + 0.5, W / 2, 460, n=12, color=(170, 160, 255), radius=420, dur=1.0, seed=21)
             kinetic(fr, t, a + 0.5, "Learn Japanese while you scroll", F_SEMI, 50, INDIGO_D, 620, stagger=0.06)
-            if lt >= 0.9:  # Apple badge: unmodified, no motion
-                fr.alpha_composite(badge, (int(W / 2 - badge.width / 2), 760))
+            beta = Image.new("RGBA", (560, 104), (0, 0, 0, 0))
+            bd = ImageDraw.Draw(beta)
+            bd.rounded_rectangle((30, 34, 66, 70), 18, fill=(134, 220, 160))
+            bd.text((88, 22), "Now in beta", font=font(F_BOLD, 46), fill=INK)
+            bd.text((88 + font(F_BOLD, 46).getlength("Now in beta") + 18, 30), "· link in bio", font=font(F_SEMI, 38), fill=INK2)
+            glass_layer(fr, beta, W / 2, 820, 52, t, a + 0.9, tint=(255, 255, 255, 120))
+            shine_sweep(fr, beta, W / 2 - beta.width / 2, 820 - beta.height / 2, (lt - 1.5) / 0.7, width=160)
             orbit_chips(fr, t, a + 0.7, W / 2, 1380, front=False)
             mascot(fr, "wave", W / 2, 1380, 500, t, a + 0.3, move="wave")
             orbit_chips(fr, t, a + 0.7, W / 2, 1380, front=True)
+        return fr
 
-        if scene in ("reveal", "journey", "end"):
-            fr = beat_pulse(fr, t, VO["upscroll"])
-        if lt < 0.28 and not continuous and i > 0:  # whip-pan into the cut
-            fr = whip(fr, lt, 1 if scene_index[scene] % 2 else -1)
+    order = list(S)
+    SOFT_IN = {"reveal": 0.55, "short": 0.55, "journey": 0.45, "end": 0.55}  # cut -> blur dissolve length
+    for i in range(round(total * FPS)):
+        if wanted is not None and i not in wanted:
+            continue
+        t = i / FPS
+        scene = next(k for k, (a, b) in S.items() if a <= t < b)
+        lt = t - S[scene][0]
+        fr = draw_scene(scene, t)
+        if scene in SOFT_IN and lt < SOFT_IN[scene]:  # the previous scene keeps moving under the dissolve
+            prev = order[order.index(scene) - 1]
+            fr = dissolve(draw_scene(prev, t), fr, ease_in_out(lt / SOFT_IN[scene]))
         if ff is None:
             fr.convert("RGB").save(Path(out_video).with_name(f"still_{t:05.2f}.jpg"), quality=88)
             continue
@@ -1315,15 +1337,15 @@ def mix_audio(S, VO, total, out):
         ("sfx_pop", s("hook") + 0.55, -10), ("sfx_pop", s("hook") + 0.9, -11), ("sfx_pop", s("hook") + 1.25, -12),
         ("sfx_swipe", s("hook") + 2.55, -4),
         ("sfx_swipe", s("doom") - 0.05, -6), ("sfx_scrollloop", s("doom") + 0.2, -10),
-        ("sfx_riser", drop - 2.0, -13), ("sfx_thud", drop, -3),
-        ("sfx_typing", s("reveal") + 2.25, -12), ("sfx_pop", s("reveal") + 3.9, -8),
-        ("sfx_swipe", s("short") - 0.1, -6), ("sfx_pop", s("short") + 2.0, -2),
-        ("sfx_click", s("card") + 0.2, -8), ("sfx_click", s("card") + 2.7, -6), ("sfx_chime", s("card") + 2.75, -6),
-        ("sfx_pop", s("card") + 2.8, -10),
-        ("sfx_click", s("card") + 3.7, -6), ("sfx_swipe", s("swipe") + 0.35, -4), ("sfx_record", s("swipe") + 0.25, -10),
+        ("sfx_riser", drop - 2.0, -13), ("sfx_thud", drop, -4),
+        ("sfx_typing", s("reveal") + 1.95, -12), ("sfx_pop", s("reveal") + 3.6, -8),
+        ("sfx_swipe", s("short") - 0.3, -10), ("sfx_pop", s("short") + SPEAK_AT + 1.5, -3),
+        ("sfx_click", s("card") + 0.2, -8), ("sfx_click", s("card") + 3.3, -6), ("sfx_chime", s("card") + 3.35, -6),
+        ("sfx_pop", s("card") + 3.4, -10),
+        ("sfx_click", s("card") + 4.3, -6), ("sfx_swipe", s("swipe") + 0.35, -4), ("sfx_record", s("swipe") + 0.25, -10),
         ("sfx_riser", s("journey") - 1.6, -16), ("sfx_thud", s("journey"), -12), ("sfx_pop", s("journey") + 1.1, -12),
         ("sfx_pop", s("journey") + 1.7, -12), ("sfx_pop", s("journey") + 2.3, -12),
-        ("sfx_swipe", s("end") - 0.1, -6), ("sfx_chime", s("end") + 0.3, -8), ("sfx_pop", s("end") + 0.8, -12),
+        ("sfx_swipe", s("end") - 0.3, -10), ("sfx_chime", s("end") + 0.3, -8), ("sfx_pop", s("end") + 0.9, -10),
     ]
     inputs, chain, labels = [], [], []
     for i, (f, st, g) in enumerate(cues):

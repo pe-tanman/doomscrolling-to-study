@@ -23,3 +23,5 @@ final/build.log
 final/*.silent.mp4
 final/*.m4a
 final/raw/
+audio/v5/
+final/lipsync/
