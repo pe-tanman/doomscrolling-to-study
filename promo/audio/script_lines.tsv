@@ -1,10 +1,11 @@
-hook1	Jessica	You can't do five minutes of Duolingo...
+hook1	Jessica	You can't do five minutes of Japanese lessons on Duolingo...
 hook2	Jessica	but you'll doomscroll for hours.
-reveal	Jessica	Meet Upscroll.
+meet	Jessica	Meet...
+upscroll	Jessica	Upscroll.
 how1	Jessica	It turns the Shorts you already watch into Japanese lessons.
-short_en	Sarah	Ugh... I'm so tired.
+short_en	Laura	Oh my god... this is SO good!
 how2	Jessica	Real Japanese words pop into the subtitles...
-word_jp	Sarah	つかれた。
+word_jp	Sarah	おいしい。
 how3	Jessica	then a quick card helps them stick.
 swipe	Jessica	Then just keep scrolling.
 journey	Jessica	Every scroll becomes a step through Japan.
