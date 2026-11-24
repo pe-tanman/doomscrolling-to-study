@@ -13,3 +13,7 @@ audio/v3/
 mock1/*.jpg
 mock1/x.mp4
 audio/v4/
+mock2/clips/
+mock2/frames/
+mock2/build.log
+mock1/frames/

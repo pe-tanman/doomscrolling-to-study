@@ -21,6 +21,17 @@ uses the app's own mascot art from `ios/Upscroll/Assets.xcassets`.
 - Music: `music_intro.mp3` (tense, 120 bpm) plays under the problem, and `music_main_a.mp3` drops at the reveal. Both come from the ElevenLabs Sound Effects endpoint, since the Music API needs a paid plan.
 - Fonts: Inter Display / Inter from the system (close to SF Pro) and `fonts/noto-sans-jp-*` (SIL Open Font License). Older font files in `fonts/` are from earlier revisions.
 
+## Mock 2 (480p motion pass)
+`mock2/upscroll_mock2.mp4` is Mock 1 with AI video in place of the stills: the Shorts
+(the ramen vlog, the street cat, the puppy, the kickflip), the mascot in each pose (made on
+a green screen and keyed), and the journey map. Clips are Wan 3.0 Prime image-to-video at
+480p on fal.ai; the source frames are in `mock2/src/`, the clips in `mock2/raw/`.
+
+```bash
+python3 mock2/prepare_clips.py mock2/raw mock2/clips      # frames + green-screen keying
+python3 build_mock1.py --clips mock2/clips --scale 0.5 --out mock2/upscroll_mock2.mp4
+```
+
 ## Build
 ```bash
 python3 build_mock1.py            # writes mock1/upscroll_mock1.mp4 (1080x1920, 30 fps)

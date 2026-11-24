@@ -149,6 +149,39 @@ def cover(img, size):
     return ImageOps.fit(img, size, Image.LANCZOS)
 
 
+# ---------- AI video clips (Mock 2 / final) ----------
+CLIP_DIR = None   # set by --clips: a folder of <name>/frame_00001.jpg|png sequences at FPS
+CLIP_FPS = FPS
+MASCOT_BOX = (84, 110, 600)  # where the mascot sits in the 768px green-screen source: x, y, size
+
+
+@lru_cache(None)
+def clip_len(name):
+    if CLIP_DIR is None or not (CLIP_DIR / name).is_dir():
+        return 0
+    return len(list((CLIP_DIR / name).glob("frame_*")))
+
+
+@lru_cache(maxsize=64)
+def _clip_img(name, idx):
+    f = next((CLIP_DIR / name).glob(f"frame_{idx + 1:05d}.*"))
+    return Image.open(f).convert("RGBA")
+
+
+def clip_frame(name, lt, mode="clamp"):
+    """Frame of an AI clip at local time lt (None when there is no clip)."""
+    n = clip_len(name)
+    if not n:
+        return None
+    i = int(max(0.0, lt) * CLIP_FPS)
+    if mode == "loop":
+        i %= n
+    elif mode == "pingpong":
+        i %= max(1, 2 * n - 2)
+        i = i if i < n else 2 * n - 2 - i
+    return _clip_img(name, min(i, n - 1))
+
+
 # ---------- iOS Liquid Glass ----------
 @lru_cache(None)
 def _vgrad(h, top, bottom, cut=1.0):
@@ -240,7 +273,16 @@ def mascot(frame, name, cx, cy, size, t, t0, move="bob", flip=False, ground=True
     if t < t0:
         return
     lt = t - t0
-    im = mascot_img(name, size)
+    clip = clip_frame(f"mascot_{name}", lt, "pingpong")
+    if clip is not None:  # AI character animation: scale so the cat matches the still's size
+        bx, by, bs = MASCOT_BOX
+        k = clip.width / 768
+        full = int(size * 768 / bs)
+        im = clip.resize((full, full), Image.BILINEAR)
+        cy = cy - (by + bs / 2 - 384) * full / 768
+        move = "clip"
+    else:
+        im = mascot_img(name, size)
     if flip:
         im = ImageOps.mirror(im)
     sx = sy = 1.0
@@ -266,7 +308,7 @@ def mascot(frame, name, cx, cy, size, t, t0, move="bob", flip=False, ground=True
     elif move == "walk":
         dy -= abs(math.sin(lt * 2 * math.pi * 2.6)) * 14
         ang = math.sin(lt * 2 * math.pi * 2.6) * 5
-    im = im.resize((int(size * sx), int(size * sy)), Image.BILINEAR)
+    im = im.resize((int(im.width * sx), int(im.height * sy)), Image.BILINEAR)
     if abs(ang) > 0.2:
         im = im.rotate(ang, resample=Image.BICUBIC, expand=True)
     if ground:
@@ -614,9 +656,20 @@ def chrome_layer(name):
     return lay
 
 
+@lru_cache(maxsize=32)
+def _clip_cover(name, idx):
+    return cover(_clip_img(name, idx).convert("RGB"), (int(SCR_W * 1.08), int(SCR_H * 1.08))).convert("RGBA")
+
+
 def short_frame(name, lt, chrome=True, dim=0.0, blur=0):
-    """One Short at local time lt, with a handheld drift so it feels like video."""
-    src = short_still(name)
+    """One Short at local time lt: its AI clip if there is one, else the still with a handheld drift."""
+    n = clip_len(name)
+    if n:
+        i = min(int(max(0.0, lt) * CLIP_FPS), n - 1) if name == "vlog" else int(max(0.0, lt) * CLIP_FPS) % n
+        src = _clip_cover(name, i)
+        lt = lt * 0.3  # the clip has its own camera motion; keep only a hint of drift
+    else:
+        src = short_still(name)
     z = 1 + 0.02 * math.sin(lt * 0.9)
     big = src.resize((int(src.width * z), int(src.height * z)), Image.BILINEAR)
     ox = (big.width - SCR_W) / 2 + math.sin(lt * 1.7) * 8 + math.sin(lt * 4.1) * 2
@@ -955,6 +1008,15 @@ def render(out_video, scale=1.0, only=None):
     ImageDraw.Draw(jsh).rounded_rectangle((jpad, jpad + 14, jpad + map_w, jpad + map_h + 14), 56, fill=(41, 40, 80, 70))
     jcard.alpha_composite(jsh.filter(ImageFilter.GaussianBlur(24)))
     jcard.paste(journey, (jpad, jpad), rounded_mask(journey.size, 56))
+    jmask = rounded_mask(journey.size, 56)
+
+    def journey_card(lt):
+        fr_ = clip_frame("journey", lt, "clamp")
+        if fr_ is None:
+            return jcard
+        c = jcard.copy()
+        c.paste(cover(fr_.convert("RGB"), journey.size), (jpad, jpad), jmask)
+        return c
     how1 = word_times("how1", VO["how1"])
     t_shorts = next(st for w, st in how1 if w.lower().startswith("shorts"))
     t_japanese = next(st for w, st in how1 if w.lower().startswith("japanese"))
@@ -1083,7 +1145,7 @@ def render(out_video, scale=1.0, only=None):
             pts = [(-210, 470), (-120, 360), (20, 300), (120, 200), (60, 90)]  # along the path
             u = ease_in_out((lt - 0.5) / 2.3) * (len(pts) - 1)
             p = ease_out(lt / 0.7)  # the map swings up in 3D, settling from the zoom
-            card = tilt(jcard, (1 - p) * 42)
+            card = tilt(journey_card(lt), (1 - p) * 42)
             sc = 1.35 - 0.35 * p
             card = card.resize((int(card.width * sc), int(card.height * sc)), Image.BILINEAR)
             composite(fr, with_alpha(card, clamp(lt / 0.25)), W / 2 - card.width / 2, 1150 - card.height / 2 + (1 - p) * 120)
@@ -1095,6 +1157,7 @@ def render(out_video, scale=1.0, only=None):
                 mx = pts[k][0] + (pts[k + 1][0] - pts[k][0]) * f
                 my = pts[k][1] + (pts[k + 1][1] - pts[k][1]) * f
                 mascot(fr, "map", W / 2 + mx, 1150 + my, 280, t, a + 0.6, move="walk", flip=pts[k + 1][0] < pts[k][0])
+                # (with clips, the mascot_map clip walks in place while this moves it along the path)
             headline(fr, t, a + 0.2, "Every Short is", "a step through Japan.", y=210, size2=82)
         elif scene == "end":
             aura(fr, t, W / 2, 1380, strength=0.8)
@@ -1169,7 +1232,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(ROOT / "mock1/upscroll_mock1.mp4"))
     ap.add_argument("--scale", type=float, default=1.0)
+    ap.add_argument("--clips", help="folder of AI clip frame sequences (Mock 2 / final)")
     a = ap.parse_args()
+    global CLIP_DIR
+    CLIP_DIR = Path(a.clips) if a.clips else None
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     silent, mix = out.with_suffix(".silent.mp4"), out.with_suffix(".m4a")
